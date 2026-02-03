@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donate to Ukraine - Ulia</title>
+    <title>Contact - Ulia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
@@ -18,8 +18,6 @@
             --border: #e8e6e3;
             --sage: #7a8c6e;
             --sage-light: #eef2eb;
-            --ukraine-blue: #0057b7;
-            --ukraine-yellow: #ffd700;
         }
 
         * {
@@ -107,29 +105,30 @@
             font-size: 1.6rem;
             font-weight: 500;
             color: var(--text);
-            margin-bottom: 1rem;
-        }
-
-        .content p {
-            color: var(--text-soft);
             margin-bottom: 1.5rem;
         }
 
-        .donate-link {
-            display: inline-block;
-            color: var(--accent);
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--accent);
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.2s ease;
+        .contact-item {
+            margin-bottom: 1.25rem;
         }
 
-        .donate-link:hover {
-            background: var(--accent);
-            color: white;
+        .contact-label {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .contact-link:hover {
+            opacity: 0.7;
         }
 
         /* Footer */
@@ -185,22 +184,25 @@
                     <a href="index.html" class="nav-link">Projects</a>
                     <a href="experience.html" class="nav-link">Experience</a>
                     <a href="cv_Uliana_Ronska.pdf" class="nav-link" download>CV</a>
-                    <a href="contact.html" class="nav-link">Contact</a>
-                    <a href="donate.html" class="nav-link active">Donate to Ukraine</a>
+                    <a href="contact.html" class="nav-link active">Contact</a>
+                    <a href="donate.html" class="nav-link">Donate to Ukraine</a>
                 </nav>
             </div>
             <p class="subtitle">Maths at Cambridge · from Ukraine 🇺🇦</p>
         </header>
 
         <section class="content">
-            <h2>Support Ukraine</h2>
-            <p>
-                If you'd like to help my country, I would really, really appreciate it.
-            </p>
-            <p>
-                If you don't know where to donate but would like to help, here's a place I trust. It's for tactical medicine - saving lives on the ground.
-            </p>
-            <a href="https://en.ptahy.vidchui.org/" class="donate-link" target="_blank">Donate →</a>
+            <h2>Get in touch</h2>
+            
+            <div class="contact-item">
+                <p class="contact-label">Email</p>
+                <a href="mailto:u.ronskaya@gmail.com" class="contact-link">u.ronskaya@gmail.com</a>
+            </div>
+
+            <div class="contact-item">
+                <p class="contact-label">LinkedIn</p>
+                <a href="https://www.linkedin.com/in/uliana-ronska" class="contact-link" target="_blank">linkedin.com/in/uliana-ronska</a>
+            </div>
         </section>
 
         <footer class="footer">
@@ -208,7 +210,7 @@
                 <a href="index.html">Projects</a>
                 <a href="experience.html">Experience</a>
                 <a href="cv_Uliana_Ronska.pdf" download>CV</a>
-                <a href="contact.html">Contact</a>
+                <a href="donate.html">Donate to Ukraine</a>
             </nav>
         </footer>
     </div>
