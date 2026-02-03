@@ -157,6 +157,21 @@
             font-size: 0.95rem;
         }
 
+        /* CV Link */
+        .cv-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .cv-link:hover {
+            opacity: 0.7;
+        }
+
         /* Footer */
         .footer {
             margin-top: 4rem;
@@ -216,6 +231,7 @@
                 <nav class="nav">
                     <a href="index.html" class="nav-link">Projects</a>
                     <a href="experience.html" class="nav-link active">Experience</a>
+                    <a href="cv_Uliana_Ronska.pdf" class="nav-link" download>CV</a>
                     <a href="donate.html" class="nav-link">Donate to Ukraine</a>
                 </nav>
             </div>
@@ -271,9 +287,12 @@
             </div>
         </section>
 
+        <a href="cv_Uliana_Ronska.pdf" class="cv-link" download>Full CV →</a>
+
         <footer class="footer">
             <nav class="footer-links">
                 <a href="index.html">Projects</a>
+                <a href="cv_Uliana_Ronska.pdf" download>CV</a>
                 <a href="donate.html">Donate to Ukraine</a>
             </nav>
         </footer>
