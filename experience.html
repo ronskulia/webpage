@@ -90,6 +90,10 @@
             color: var(--accent);
         }
 
+        .nav-link .mobile-only {
+            display: none;
+        }
+
         .header .subtitle {
             color: var(--text-soft);
             font-size: 1rem;
@@ -211,7 +215,16 @@
             }
 
             .nav {
+                flex-wrap: wrap;
                 gap: 1rem;
+            }
+
+            .nav-link .desktop-only {
+                display: none;
+            }
+
+            .nav-link .mobile-only {
+                display: inline;
             }
         }
 
@@ -233,7 +246,7 @@
                     <a href="experience.html" class="nav-link active">Experience</a>
                     <a href="cv_Uliana_Ronska.pdf" class="nav-link" target="_blank">CV</a>
                     <a href="contact.html" class="nav-link">Contact</a>
-                    <a href="donate.html" class="nav-link">Donate to Ukraine🇺🇦</a>
+                    <a href="donate.html" class="nav-link"><span class="desktop-only">Donate to Ukraine</span><span class="mobile-only">Donate</span> 🇺🇦</a>
                 </nav>
             </div>
             <p class="subtitle">Maths at Cambridge · from Ukraine 🇺🇦</p>
@@ -295,7 +308,7 @@
                 <a href="index.html">Projects</a>
                 <a href="cv_Uliana_Ronska.pdf" target="_blank">CV</a>
                 <a href="contact.html">Contact</a>
-                <a href="donate.html">Donate to Ukraine🇺🇦</a>
+                <a href="donate.html">Donate to Ukraine 🇺🇦</a>
             </nav>
         </footer>
     </div>
