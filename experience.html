@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience — Ulia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf9f7;
+            --card: #ffffff;
+            --text: #2d2a26;
+            --text-soft: #5c574f;
+            --accent: #c4704b;
+            --accent-light: #f5ebe6;
+            --border: #e8e6e3;
+            --sage: #7a8c6e;
+            --sage-light: #eef2eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        ::selection {
+            background: var(--accent-light);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .header .subtitle {
+            color: var(--text-soft);
+            font-size: 1rem;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Experience items */
+        .experience-item {
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .experience-item:nth-child(2) { animation-delay: 0.05s; }
+        .experience-item:nth-child(3) { animation-delay: 0.1s; }
+        .experience-item:nth-child(4) { animation-delay: 0.15s; }
+        .experience-item:nth-child(5) { animation-delay: 0.2s; }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .experience-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .experience-role {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .experience-date {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+        }
+
+        .experience-company {
+            color: var(--accent);
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .experience-item p {
+            color: var(--text-soft);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer a {
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 2.5rem 1.25rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .nav {
+                gap: 1rem;
+            }
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <h1>Uliana Ronska</h1>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Projects</a>
+                    <a href="experience.html" class="nav-link active">Experience</a>
+                    <a href="donate.html" class="nav-link">Donate to Ukraine</a>
+                </nav>
+            </div>
+            <p class="subtitle">Maths at Cambridge · from Ukraine</p>
+        </header>
+
+        <section class="section">
+            <h2 class="section-header">Research & Work</h2>
+            
+            <div class="experience-item">
+                <div class="experience-top">
+                    <span class="experience-role">Quantitative Research Intern</span>
+                    <span class="experience-date">Jul–Sep 2025</span>
+                </div>
+                <span class="experience-company">Citadel Securities</span>
+                <p>Built and evaluated ML models for large-scale time-series prediction problems. Worked with multi-TB datasets and high-performance compute.</p>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-top">
+                    <span class="experience-role">Research Intern</span>
+                    <span class="experience-date">Jun–Jul 2024</span>
+                </div>
+                <span class="experience-company">University of Cambridge</span>
+                <p>Computational simulations of different materials.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-header">Teaching</h2>
+            
+            <div class="experience-item">
+                <div class="experience-top">
+                    <span class="experience-role">Created & taught Electromagnetism course</span>
+                    <span class="experience-date">Mar 2024, Mar 2025</span>
+                </div>
+                <span class="experience-company">Math Beyond Limits Balkans</span>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-top">
+                    <span class="experience-role">Physics teacher</span>
+                    <span class="experience-date">Aug 2024</span>
+                </div>
+                <span class="experience-company">Summer camp for 200 Ukrainian students, Durham, UK</span>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-top">
+                    <span class="experience-role">Tutored kids when the war started</span>
+                    <span class="experience-date">Mar–May 2022</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <nav class="footer-links">
+                <a href="index.html">Projects</a>
+                <a href="donate.html">Donate to Ukraine</a>
+            </nav>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ulia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf9f7;
+            --card: #ffffff;
+            --text: #2d2a26;
+            --text-soft: #5c574f;
+            --accent: #c4704b;
+            --accent-light: #f5ebe6;
+            --border: #e8e6e3;
+            --sage: #7a8c6e;
+            --sage-light: #eef2eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        ::selection {
+            background: var(--accent-light);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .header .subtitle {
+            color: var(--text-soft);
+            font-size: 1rem;
+        }
+
+        /* Intro */
+        .intro {
+            margin-bottom: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .intro p {
+            margin-bottom: 1rem;
+            color: var(--text-soft);
+        }
+
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Projects */
+        .projects-header {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-soft);
+            margin-bottom: 1.5rem;
+            text-transform: lowercase;
+            letter-spacing: 0.02em;
+        }
+
+        .project {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            margin-bottom: 1.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .project:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px rgba(196, 112, 75, 0.08);
+        }
+
+        .project-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project h2 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .project-tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            background: var(--accent-light);
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .project-tag.community {
+            background: var(--sage-light);
+            color: var(--sage);
+        }
+
+        .project p {
+            color: var(--text-soft);
+            margin-bottom: 0.75rem;
+        }
+
+        .project p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .project-stat {
+            display: inline-block;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .project-link:hover {
+            opacity: 0.7;
+        }
+
+        .inline-link {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent-light);
+            transition: border-color 0.2s ease;
+        }
+
+        .inline-link:hover {
+            border-color: var(--accent);
+        }
+
+        /* About section */
+        .about {
+            margin-top: 3rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .about-header {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-soft);
+            margin-bottom: 1.5rem;
+            text-transform: lowercase;
+            letter-spacing: 0.02em;
+        }
+
+        .experience-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .experience-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .experience-role {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .experience-date {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+        }
+
+        .experience-company {
+            color: var(--accent);
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .experience-item p {
+            color: var(--text-soft);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer a {
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 2.5rem 1.25rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .project {
+                padding: 1.5rem;
+            }
+
+            .project-top {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Subtle animation */
+        .project {
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .project:nth-child(1) { animation-delay: 0.05s; }
+        .project:nth-child(2) { animation-delay: 0.1s; }
+        .project:nth-child(3) { animation-delay: 0.15s; }
+        .project:nth-child(4) { animation-delay: 0.2s; }
+        .project:nth-child(5) { animation-delay: 0.25s; }
+        .project:nth-child(6) { animation-delay: 0.3s; }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <h1>Uliana Ronska</h1>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link active">Projects</a>
+                    <a href="experience.html" class="nav-link">Experience</a>
+                    <a href="donate.html" class="nav-link">Donate to Ukraine</a>
+                </nav>
+            </div>
+            <p class="subtitle">Maths at Cambridge · from Ukraine</p>
+        </header>
+
+        <section class="intro">
+            <p>
+                This is a place where I'm collecting things I've done.
+            </p>
+            <p>
+                Not because they fit into a plan (they don't), but because at some point I cared about them enough to actually do them.
+            </p>
+            <p>
+                Most of my projects start the same way: something feels missing or annoying, so I try to fix it. Sometimes it works, sometimes it turns into something bigger, sometimes it's just fun. This has taken me to some interesting places:
+            </p>
+        </section>
+
+        <section class="projects-section">
+            <h2 class="projects-header">Projects</h2>
+
+            <article class="project">
+                <div class="project-top">
+                    <h2>Kudyvstupaty</h2>
+                    <span class="project-tag">Education</span>
+                </div>
+                <p>
+                    Ukrainian students applying abroad usually have zero real information. University websites are in different languages, every country has its own weird rules, and no one at school knows how any of it works.
+                </p>
+                <p>
+                    When I was 15, I had to cold-message friends of friends of friends just to understand basic things. Later, when I had easier access to people at top universities, I collected <span class="project-stat">85+ real acceptance stories</span> and put everything in one place.
+                </p>
+                <p>
+                    It's helped <span class="project-stat">2,500+ students</span> navigate applying abroad during a pretty critical moment for Ukrainian education.
+                </p>
+                <a href="https://kudyvstupaty.com" class="project-link" target="_blank">kudyvstupaty.com →</a>
+            </article>
+
+            <article class="project">
+                <div class="project-top">
+                    <h2>CamHack</h2>
+                    <span class="project-tag">Hackathon</span>
+                </div>
+                <p>
+                    Accidentally ended up running <a href="https://www.linkedin.com/posts/james-leung-dev_hackathon-cambridge-camhack-ugcPost-7392170231705792512-ZZLR?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD3jTtwBjiQN8607o_vHvV8Vw3m-86XSa6w" target="_blank" class="inline-link">Cambridge's largest hackathon</a>.
+                </p>
+                <p>
+                    Most hackathons felt corporate — basically recruitment events with merch. Together with <a href="https://www.leung.dev/" target="_blank" class="inline-link">James</a>, we pushed it beyond just CS, advertised across disciplines, and grew it from ~100 to <span class="project-stat">250+ participants</span>.
+                </p>
+                <p>
+                    30 hours of building genuinely unhinged projects under the theme "Unintended Behaviour". The projects were weird, technically strong, and people actually cared.
+                </p>
+            </article>
+
+            <article class="project">
+                <div class="project-top">
+                    <h2>QUACK</h2>
+                    <span class="project-tag community">Community</span>
+                </div>
+                <p>
+                    Cambridge felt weirdly uncreative — everyone wrapped in deadlines, no space to just build something for fun. I couldn't find people who'd spend evenings making stuff just because.
+                </p>
+                <p>
+                    So I started this. <span class="project-stat">~70 members total</span>, around <span class="project-stat">30 show up weekly</span> to work on AI tools, quantum projects, graphics engines, hardware builds, whatever catches their interest.
+                </p>
+                <a href="https://www.camquack.com/" class="project-link" target="_blank">camquack.com →</a>
+            </article>
+
+            <article class="project">
+                <div class="project-top">
+                    <h2>EasyUkrainian</h2>
+                    <span class="project-tag">Language</span>
+                </div>
+                <p>
+                    I taught myself German to B2 without courses — just apps, websites, experimentation. At one point I had 24 language apps installed because I wanted to find what actually works.
+                </p>
+                <p>
+                    I liked parts of many apps but none of them fully. So I built my own for friends learning Ukrainian, combining the techniques that worked for me.
+                </p>
+                <a href="http://www.easyukrainian.com/login" class="project-link" target="_blank">easyukrainian.com →</a>
+            </article>
+
+            <article class="project">
+                <div class="project-top">
+                    <h2>My own free SuperWhisper</h2>
+                    <span class="project-tag">Tool</span>
+                </div>
+                <p>
+                    Didn't want to pay for speech-to-text software. Asked Claude to build it for me. That's it.
+                </p>
+                <a href="https://github.com/ronskulia/whisper" class="project-link" target="_blank">github →</a>
+            </article>
+
+            <article class="project">
+                <div class="project-top">
+                    <h2>Cambridge Game Jam</h2>
+                    <span class="project-tag community">Upcoming</span>
+                </div>
+                <p>
+                    Running this one this term — video games, board games, 48 hours of creation. February 27 – March 1, expecting around <span class="project-stat">300 people</span>.
+                </p>
+                <a href="https://camgamejam.com/" class="project-link" target="_blank">camgamejam.com →</a>
+            </article>
+        </section>
+
+        <footer class="footer">
+            <nav class="footer-links">
+                <a href="experience.html">Experience</a>
+                <a href="donate.html">Donate to Ukraine</a>
+            </nav>
+        </footer>
+    </div>
+</body>
+</html>
