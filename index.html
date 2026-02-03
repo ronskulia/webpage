@@ -100,15 +100,44 @@
             margin-bottom: 3rem;
             padding-bottom: 2.5rem;
             border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
         }
 
-        .intro p {
+        .intro-text {
+            flex: 1;
+        }
+
+        .intro-text p {
             margin-bottom: 1rem;
             color: var(--text-soft);
         }
 
-        .intro p:last-child {
+        .intro-text p:last-child {
             margin-bottom: 0;
+        }
+
+        .intro-image {
+            flex-shrink: 0;
+        }
+
+        .intro-image img {
+            width: 180px;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 600px) {
+            .intro {
+                flex-direction: column-reverse;
+                gap: 1.5rem;
+            }
+
+            .intro-image img {
+                width: 140px;
+            }
         }
 
         /* Projects */
@@ -359,15 +388,20 @@
         </header>
 
         <section class="intro">
-            <p>
-                This is a place where I'm collecting things I've done.
-            </p>
-            <p>
-                I do things not because they fit into a plan (they don't), but because at some point I cared about them enough to actually do them.
-            </p>
-            <p>
-                Most of my projects start the same way: something feels missing or annoying, so I try to fix it. Sometimes it works, sometimes it turns into something bigger, sometimes it's just fun. This has taken me to some interesting places:
-            </p>
+            <div class="intro-text">
+                <p>
+                    This is a place where I'm collecting things I've done.
+                </p>
+                <p>
+                    I do things not because they fit into a plan (they don't), but because at some point I cared about them enough to actually do them.
+                </p>
+                <p>
+                    Most of my projects start the same way: something feels missing or annoying, so I try to fix it. Sometimes it works, sometimes it turns into something bigger, sometimes it's just fun. This has taken me to some interesting places:
+                </p>
+            </div>
+            <div class="intro-image">
+                <img src="me.JPG" alt="Uliana Ronska">
+            </div>
         </section>
 
         <section class="projects-section">
@@ -375,7 +409,7 @@
 
             <article class="project">
                 <div class="project-top">
-                    <h2>Kudyvstupaty (English: WHERE TO STUDY)</h2>
+                    <h2>Kudyvstupaty (English: where to study )</h2>
                     <span class="project-tag">Education</span>
                 </div>
                 <p>
