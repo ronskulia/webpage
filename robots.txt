@@ -1,0 +1,7 @@
+# robots.txt for this site
+#
+# Replace https://your-domain.com with your real site domain.
+User-agent: *
+Allow: /
+
+Sitemap: https://your-domain.com/sitemap.xml
