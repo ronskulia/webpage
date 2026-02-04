@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  IMPORTANT:
-  Replace https://your-domain.com with your real site domain (the exact URL people use).
-  Example: https://uliana-ronska.com
--->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://your-domain.com/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://your-domain.com/experience.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://your-domain.com/contact.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://your-domain.com/donate.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://your-domain.com/Uliana%20Ronska%20CV.pdf</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
-  </url>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://ulianaronska.com/</loc>
+  <lastmod>2026-02-04T17:49:46+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://ulianaronska.com/index.html</loc>
+  <lastmod>2026-02-04T17:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ulianaronska.com/experience.html</loc>
+  <lastmod>2026-02-04T17:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ulianaronska.com/Uliana%20Ronska%20CV.pdf</loc>
+  <lastmod>2026-02-04T17:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ulianaronska.com/contact.html</loc>
+  <lastmod>2026-02-04T17:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ulianaronska.com/donate.html</loc>
+  <lastmod>2026-02-04T17:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
 </urlset>
