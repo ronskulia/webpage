@@ -1,708 +1,668 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-50C0XE8ECN"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-50C0XE8ECN');
-    </script>
-    <link rel="apple-touch-icon" sizes="180x180" href="Text%20to%20Favicon%20Generator/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="Text%20to%20Favicon%20Generator/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="Text%20to%20Favicon%20Generator/favicon-16x16.png">
-    <link rel="icon" href="Text%20to%20Favicon%20Generator/favicon.ico">
-    <link rel="manifest" href="Text%20to%20Favicon%20Generator/site.webmanifest">
-    <meta name="theme-color" content="#ffffff">
-    <title>Uliana - Projects</title>
-    <meta name="description" content="Uliana Ronska - Maths at Cambridge. Personal website with projects, hackathons, and things I've built.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #faf9f7;
-            --card: #ffffff;
-            --text: #2d2a26;
-            --text-soft: #5c574f;
-            --accent: #c4704b;
-            --accent-light: #f5ebe6;
-            --border: #e8e6e3;
-            --sage: #7a8c6e;
-            --sage-light: #eef2eb;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Source Sans 3', -apple-system, sans-serif;
-            line-height: 1.7;
-            font-size: 17px;
-        }
-
-        ::selection {
-            background: var(--accent-light);
-            color: var(--text);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        /* Header */
-        .header {
-            margin-bottom: 3rem;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .header h1 {
-            font-family: 'Newsreader', Georgia, serif;
-            font-size: 2.2rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .nav-link {
-            color: var(--text-soft);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--accent);
-        }
-
-        .nav-link.active {
-            color: var(--accent);
-        }
-
-        .nav-link .mobile-only {
-            display: none;
-        }
-
-        .header .subtitle {
-            color: var(--text-soft);
-            font-size: 1rem;
-        }
-
-        .intro-subtitle {
-            display: none;
-            color: var(--text-soft);
-            font-size: 1rem;
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-
-        /* Intro */
-        .intro {
-            margin-bottom: 3rem;
-            padding-bottom: 2.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .intro-text {
-            flex: 1;
-        }
-
-        .intro-text p {
-            margin-bottom: 1rem;
-            color: var(--text-soft);
-        }
-
-        .intro-text p:last-child {
-            margin-bottom: 0;
-        }
-
-        .intro-image {
-            flex-shrink: 0;
-        }
-
-        .intro-image img {
-            width: 180px;
-            height: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        @media (max-width: 600px) {
-            .intro {
-                flex-direction: column-reverse;
-                gap: 1.5rem;
-                align-items: center;
-            }
-
-            .intro-image {
-                text-align: center;
-            }
-
-            .intro-image img {
-                width: 140px;
-            }
-
-            .header .subtitle {
-                display: none;
-            }
-
-            .intro-subtitle {
-                display: block;
-            }
-        }
-
-        /* Section headers */
-        .projects-header {
-            font-family: 'Newsreader', Georgia, serif;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-soft);
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.02em;
-        }
-
-        /* Now section */
-        .now-section {
-            margin-bottom: 3rem;
-        }
-
-        /* Projects grid */
-        .projects-section {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
-        }
-
-        .projects-section .projects-header {
-            grid-column: 1 / -1;
-            margin-bottom: 0.25rem;
-        }
-
-        .projects-section .project {
-            margin-bottom: 0;
-        }
-
-        .projects-section .project.expanded {
-            grid-column: 1 / -1;
-        }
-
-        /* Projects */
-        .project {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.75rem;
-            margin-bottom: 1.25rem;
-            transition: all 0.2s ease;
-        }
-
-        .project:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 20px rgba(196, 112, 75, 0.08);
-        }
-
-        .project-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .project h3 {
-            font-family: 'Newsreader', Georgia, serif;
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .project-top-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
-
-        .project-tag {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0.3rem 0.7rem;
-            border-radius: 4px;
-            background: var(--accent-light);
-            color: var(--accent);
-            white-space: nowrap;
-        }
-
-        .project-tag.community {
-            background: var(--sage-light);
-            color: var(--sage);
-        }
-
-        .project p {
-            color: var(--text-soft);
-            margin-bottom: 0.75rem;
-        }
-
-        .project p:last-of-type {
-            margin-bottom: 0;
-        }
-
-        .project-stat {
-            display: inline-block;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .project-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: opacity 0.2s ease;
-        }
-
-        .project-link:hover {
-            opacity: 0.7;
-        }
-
-        .inline-link {
-            color: var(--accent);
-            text-decoration: none;
-            border-bottom: 1px solid var(--accent-light);
-            transition: border-color 0.2s ease;
-        }
-
-        .inline-link:hover {
-            border-color: var(--accent);
-        }
-
-        /* Expandable projects */
-        .project.expandable {
-            cursor: pointer;
-        }
-
-        .project-summary {
-            color: var(--text-soft);
-            margin-bottom: 0;
-        }
-
-        .project-details {
-            display: none;
-        }
-
-        .project.expandable.expanded .project-details {
-            display: block;
-        }
-
-        .project.expandable.expanded .project-summary {
-            display: none;
-        }
-
-        .expand-icon {
-            display: inline-block;
-            color: var(--text-soft);
-            font-size: 0.8rem;
-            transition: transform 0.25s ease;
-        }
-
-        .project.expandable:not(.expanded) .expand-icon {
-            transform: rotate(-90deg);
-        }
-
-        /* About section */
-        .about {
-            margin-top: 3rem;
-            padding-top: 2.5rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .about-header {
-            font-family: 'Newsreader', Georgia, serif;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-soft);
-            margin-bottom: 1.5rem;
-            text-transform: lowercase;
-            letter-spacing: 0.02em;
-        }
-
-        .experience-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .experience-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .experience-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .experience-role {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .experience-date {
-            font-size: 0.85rem;
-            color: var(--text-soft);
-        }
-
-        .experience-company {
-            color: var(--accent);
-            font-size: 0.95rem;
-            display: block;
-            margin-bottom: 0.4rem;
-        }
-
-        .experience-item p {
-            color: var(--text-soft);
-            font-size: 0.95rem;
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer a {
-            color: var(--text-soft);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-        }
-
-        .footer a:hover {
-            color: var(--accent);
-        }
-
-        .footer-note {
-            font-size: 0.85rem;
-            color: var(--text-soft);
-            opacity: 0.7;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .container {
-                padding: 2.5rem 1.25rem;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .nav {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-
-            .nav-link .desktop-only {
-                display: none;
-            }
-
-            .nav-link .mobile-only {
-                display: inline;
-            }
-
-            .project {
-                padding: 1.5rem;
-            }
-
-            .project-top {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .footer {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .projects-section {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Subtle animation */
-        .project {
-            opacity: 0;
-            transform: translateY(15px);
-            animation: fadeUp 0.5s ease forwards;
-        }
-
-        .project:nth-child(1) { animation-delay: 0.05s; }
-        .project:nth-child(2) { animation-delay: 0.1s; }
-        .project:nth-child(3) { animation-delay: 0.15s; }
-        .project:nth-child(4) { animation-delay: 0.2s; }
-        .project:nth-child(5) { animation-delay: 0.25s; }
-        .project:nth-child(6) { animation-delay: 0.3s; }
-        .project:nth-child(7) { animation-delay: 0.35s; }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uliana Ronska</title>
+<meta name="description" content="Uliana Ronska — maths at Cambridge (finished), from Ukraine, now moving to the Bay Area.">
+<link rel="apple-touch-icon" sizes="180x180" href="/Text%20to%20Favicon%20Generator/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/Text%20to%20Favicon%20Generator/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/Text%20to%20Favicon%20Generator/favicon-16x16.png">
+<link rel="icon" href="/Text%20to%20Favicon%20Generator/favicon.ico">
+<link rel="manifest" href="/Text%20to%20Favicon%20Generator/site.webmanifest">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF6;
+    --ink: #141821;
+    --ink-soft: #4A5160;
+    --line: #E3E2DA;
+    --blue: #2B4C9B;
+    --duck: #FFD23F;
+    --duck-soft: #FFE58A;
+    --maxw: 720px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ---------- header ---------- */
+  header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 0 0;
+    font-size: 14px;
+  }
+  header .name { font-weight: 600; letter-spacing: -0.02em; font-size: 32px; line-height: 1; }
+  header nav a {
+    color: var(--ink-soft); text-decoration: none; margin-left: 18px;
+    border-bottom: 1px solid transparent;
+  }
+  header nav a:hover, header nav a:focus-visible { color: var(--ink); border-bottom-color: var(--duck); }
+  header nav a.ua { color: var(--blue); }
+
+  a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 84px 0 20px; }
+  .route {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .route .arrow { color: var(--blue); }
+  .route-mid { display: inline; }
+  .dots {
+    font-family: inherit; font-size: inherit; letter-spacing: 0.18em;
+    color: var(--blue); background: none; border: none; padding: 0 3px;
+    cursor: pointer; border-bottom: 1px dashed rgba(43,76,155,.45);
+  }
+  .dots:hover, .dots:focus-visible { color: var(--ink); border-bottom-color: var(--ink); }
+  .places { cursor: pointer; }
+  .places .place { color: var(--ink-soft); }
+  .places .arrow { color: var(--blue); }
+  .route-mid:not(.open) .places { display: none; }
+  .route-mid.open .dots { display: none; }
+  .route-mid.open .places { animation: routeReveal .45s ease; }
+  @keyframes routeReveal { from { opacity: 0; transform: translateY(-2px); } to { opacity: 1; transform: none; } }
+  h1 {
+    font-size: clamp(40px, 7vw, 60px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1.02;
+    margin-bottom: 22px;
+  }
+  .tagline {
+    font-size: clamp(19px, 3vw, 23px);
+    line-height: 1.45; font-weight: 500;
+    max-width: 620px;
+  }
+  .tagline .hl {
+    background: linear-gradient(to top, var(--duck) 0%, var(--duck) 42%, transparent 42%);
+    padding: 0 2px;
+  }
+  .portrait {
+    float: right;
+    width: 180px; height: auto;
+    margin: 4px 0 14px 32px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    transform: rotate(2deg);
+    transition: transform .3s ease;
+  }
+  .portrait:hover { transform: rotate(0); }
+  .hero::after { content: ""; display: block; clear: both; }
+  .hero .tagline, .hero .intro { max-width: none; }
+  @media (max-width: 560px) {
+    .portrait { float: none; display: block; width: 140px; margin: 0 auto 24px; }
+    .ua-full { display: none; }
+  }
+  .intro { margin-top: 34px; max-width: 620px; color: var(--ink); }
+  .intro p + p { margin-top: 16px; }
+  .intro .quiet { color: var(--ink-soft); }
+
+  /* ---------- fun aside ---------- */
+  .fun-aside {
+    margin-top: 40px; max-width: 620px;
+    font-size: 15.5px; color: var(--ink-soft);
+  }
+  .fun-aside a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(43,76,155,.3); }
+  .fun-aside a:hover { border-bottom-color: var(--blue); }
+  .fun-aside .arrow { color: var(--blue); }
+
+  /* ---------- section scaffolding ---------- */
+  section { padding: 64px 0 8px; }
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 34px;
+  }
+  .sec-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* ---------- now ---------- */
+  .now-main {
+    font-size: clamp(22px, 3.4vw, 28px);
+    font-weight: 500; letter-spacing: -0.015em; line-height: 1.35;
+    max-width: 640px;
+  }
+  .now-sub { margin-top: 8px; color: var(--ink-soft); max-width: 620px; }
+  .now-side {
+    margin-top: 30px; padding: 18px 20px;
+    border-left: 3px solid var(--duck);
+    background: #FFFDF2;
+    max-width: 620px; font-size: 15.5px;
+  }
+  .now-side a { color: var(--blue); }
+  .now-full { display: none; }
+  .now-side.open .now-full { display: block; }
+  .now-side.open .now-brief { display: none; }
+  .now-full p { margin-top: 12px; }
+  .now-full p:first-child { margin-top: 0; }
+  .now-full .verdict { margin-top: 18px; font-size: 17.5px; }
+  .now-toggle {
+    margin-top: 14px; background: none; border: none; padding: 0; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--blue);
+    border-bottom: 1px dashed rgba(43,76,155,.45);
+  }
+  .now-toggle:hover, .now-toggle:focus-visible { color: var(--ink); border-bottom-color: var(--ink); }
+  .live-dot {
+    display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+    background: #2fae6e; margin-right: 11px; vertical-align: middle;
+    position: relative; top: -2px;
+  }
+  .live-dot::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: #2fae6e; animation: livePulse 2s ease-out infinite;
+  }
+  @keyframes livePulse {
+    0% { transform: scale(1); opacity: .55; }
+    70%, 100% { transform: scale(2.7); opacity: 0; }
+  }
+
+  /* ---------- projects ---------- */
+  .project { padding: 30px 0 34px; border-top: 1px solid var(--line); }
+  .project:first-of-type { border-top: none; padding-top: 0; }
+  .proj-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .proj-head h3 { font-size: 21px; font-weight: 600; letter-spacing: -0.015em; }
+  .proj-head .tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--ink-soft); letter-spacing: 0.06em;
+  }
+  .project p.desc { margin-top: 10px; max-width: 620px; color: var(--ink-soft); font-size: 16px; }
+  .project p.desc b { color: var(--ink); font-weight: 500; }
+  .project a.plink { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(43,76,155,.3); font-size: 15px; }
+  .project a.plink:hover { border-bottom-color: var(--blue); }
+  .links-row { margin-top: 12px; display: flex; gap: 18px; flex-wrap: wrap; }
+  .proj-summary { margin-top: 10px; max-width: 620px; color: var(--ink-soft); font-size: 16px; }
+  .proj-details { display: none; }
+  .project.open .proj-details { display: block; }
+  .project.open .proj-summary { display: none; }
+  .proj-details p { margin-top: 13px; max-width: 620px; color: var(--ink-soft); font-size: 16px; }
+  .proj-details p:first-child { margin-top: 10px; }
+  .proj-details b { color: var(--ink); font-weight: 500; }
+  .proj-details a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(43,76,155,.3); }
+  .proj-details a:hover { border-bottom-color: var(--blue); }
+  .proj-toggle {
+    margin-top: 14px; background: none; border: none; padding: 0; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #8A6208;
+    border-bottom: 1px dashed rgba(138,98,8,.55);
+  }
+  .proj-toggle:hover, .proj-toggle:focus-visible { color: var(--ink); border-bottom-color: var(--ink); }
+  .proj-toggle b { font-weight: 700; }
+  .carousel-wrap { position: relative; margin-top: 18px; max-width: 620px; }
+  .carousel {
+    display: flex; overflow-x: auto; scroll-snap-type: x proximity;
+    border-radius: 10px; border: 1px solid var(--line);
+    scrollbar-width: none;
+  }
+  .carousel::-webkit-scrollbar { display: none; }
+  .carousel img {
+    flex: 0 0 100%; width: 100%; height: 330px;
+    object-fit: cover; display: block; scroll-snap-align: start;
+  }
+  .carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid var(--line); background: rgba(255,255,255,.92);
+    color: var(--ink); font-size: 22px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .carousel-btn:hover { background: #fff; border-color: var(--ink-soft); }
+  .carousel-btn.prev { left: 10px; }
+  .carousel-btn.next { right: 10px; }
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+  .carousel-dots button {
+    width: 8px; height: 8px; border-radius: 50%; padding: 0;
+    border: none; cursor: pointer; background: var(--line);
+    transition: background .2s ease, transform .2s ease;
+  }
+  .carousel-dots button:hover { background: var(--duck-soft); }
+  .carousel-dots button.active { background: var(--duck); transform: scale(1.35); }
+
+  /* the signature: verdict margin notes */
+  .verdict {
+    margin-top: 16px; max-width: 620px;
+    font-family: 'Newsreader', Georgia, serif;
+    font-style: italic; font-size: 19.5px; line-height: 1.5;
+    font-weight: 500;
+  }
+  .verdict .vlabel {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); display: block; margin-bottom: 4px;
+  }
+  .verdict mark {
+    background: linear-gradient(to top, var(--duck-soft) 0%, var(--duck-soft) 55%, transparent 55%);
+    color: inherit; padding: 0 2px;
+    transition: background-position .25s ease;
+  }
+  .project:hover .verdict mark {
+    background: linear-gradient(to top, var(--duck) 0%, var(--duck) 55%, transparent 55%);
+  }
+
+  .smaller { padding: 26px 0 8px; border-top: 1px solid var(--line); }
+  .smaller ul { list-style: none; }
+  .smaller li { padding: 6px 0; color: var(--ink-soft); font-size: 15.5px; }
+  .smaller li b { color: var(--ink); font-weight: 500; }
+  .smaller a { color: var(--blue); }
+
+  /* ---------- technical ---------- */
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 40px; }
+  .tech-item h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .tech-item .when {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--ink-soft); letter-spacing: 0.05em;
+  }
+  .tech-item p { margin-top: 6px; font-size: 15px; color: var(--ink-soft); }
+  @media (max-width: 640px) { .tech-grid { grid-template-columns: 1fr; } .ducks, .counter { display: none; } }
+
+  /* ---------- footer ---------- */
+  footer {
+    margin-top: 90px; padding: 30px 0 44px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    font-size: 14px; color: var(--ink-soft);
+  }
+  footer a { color: var(--ink-soft); text-decoration: none; margin-right: 18px; border-bottom: 1px solid transparent; }
+  footer a:hover { color: var(--ink); border-bottom-color: var(--duck); }
+  footer a.ua { color: var(--blue); }
+  .duck { cursor: default; display: inline-block; transition: transform .3s ease; }
+  .duck:hover { transform: rotate(-14deg) translateY(-3px); }
+
+  /* ---------- hidden ducks ---------- */
+  .ducks { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 5; }
+  .hduck {
+    position: absolute;
+    width: 34px; height: 30px;
+    pointer-events: auto; cursor: pointer;
+    opacity: var(--base, 0.14);
+    transition: opacity .25s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .hduck:hover { opacity: 0.95; }
+  .hduck.found { opacity: 1; cursor: default; }
+  .hduck.wiggle { animation: quack .5s ease; }
+  @keyframes quack {
+    0%,100% { transform: rotate(0); }
+    25% { transform: rotate(-16deg) translateY(-6px) scale(1.15); }
+    60% { transform: rotate(10deg) translateY(-2px) scale(1.1); }
+  }
+  .counter {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    color: var(--ink-soft); letter-spacing: 0.03em;
+  }
+  .counter b { color: var(--blue); font-weight: 500; }
+  @media (max-width: 900px) { .hduck.gutter { display: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .duck, .verdict mark, .hduck { transition: none; }
+    .hduck.wiggle { animation: none; }
+    .live-dot::after { animation: none; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-top">
-                <h1>Uliana Ronska</h1>
-                <nav class="nav">
-                    <a href="index.html" class="nav-link active">Projects</a>
-                    <a href="experience.html" class="nav-link">Experience</a>
-                    <a href="Uliana Ronska CV.pdf" class="nav-link" target="_blank">CV</a>
-                    <a href="contact.html" class="nav-link">Contact</a>
-                    <a href="donate.html" class="nav-link"><span class="desktop-only">Donate to Ukraine</span><span class="mobile-only">Donate</span> 🇺🇦</a>
-                </nav>
-            </div>
-            <p class="subtitle">Maths at Cambridge · from Ukraine 🇺🇦</p>
-        </header>
+<div class="wrap">
 
-        <section class="intro">
-            <div class="intro-text">
-                <p>
-                    This is a place where I collect things I've done.
-                </p>
-                <p>
-                    I do things not because they fit into a plan (they don't), but because at some point I cared about them enough to actually do them.
-                </p>
-                <p>
-                    Most of my projects start the same way: something feels missing or annoying, so I try to fix it. Sometimes it works, sometimes it turns into something bigger, sometimes it's just fun. This has taken me to some interesting places:
-                </p>
-            </div>
-            <div class="intro-image">
-                <img src="me.JPG" alt="Uliana Ronska">
-                <p class="intro-subtitle">Maths at Cambridge · from Ukraine 🇺🇦</p>
-            </div>
-        </section>
+  <header>
+    <span class="name">Uliana Ronska</span>
+    <nav>
+      <a href="/Uliana Ronska CV.pdf">cv</a>
+      <a href="/random.html">random</a>
+      <a href="/contact.html">contact</a>
+      <a href="/donate.html" class="ua">donate<span class="ua-full"> to Ukraine</span> 🇺🇦</a>
+    </nav>
+  </header>
 
-        <section class="now-section">
-            <h2 class="projects-header">What I'm working on now</h2>
+  <div class="hero">
+    <div class="route">KYIV <span class="arrow">→</span> <span class="route-mid" id="routeMid"><button class="dots" id="routeToggle" aria-expanded="false" aria-label="Show the full route">⋯</button><span class="places" role="button" tabindex="0" title="click to collapse"><span class="place">KRAKOW</span> <span class="arrow">→</span> <span class="place">MUNICH AREA</span> <span class="arrow">→</span> <span class="place">PRAGUE</span> <span class="arrow">→</span> <span class="place">DEN HAAG</span> <span class="arrow">→</span> <span class="place">LISBON AREA</span></span></span> <span class="arrow">→</span> CAMBRIDGE <span class="arrow">→</span> BAY AREA</div>
+    <img class="portrait" src="/me.JPG" alt="Uliana Ronska">
+    <p class="tagline">Maths at Cambridge, <span class="hl">just finished</span>. Now moving to the Bay.</p>
 
-            <article class="project">
-                <div class="project-top">
-                    <h3>AI Tutoring Platform</h3>
-                    <span class="project-tag">Education</span>
-                </div>
-                <p>
-                    Ukrainian education is in a really bad place right now. 25% of students are studying online-only. 20% of classes get cancelled because of bombings. In the east, more than half don't happen at all.
-                </p>
-                <p>
-                    The NMT - the national exam that decides whether you get into university - still happens every year. Kids are expected to prepare like everything is normal. It's not. Most families can't afford a tutor, and if your school barely functions, you're just on your own.
-                </p>
-                <p>
-                    I built Kudyvstupaty a few years ago because Ukrainian students had no information about applying abroad. This comes from the same place - these are kids who need help right now and aren't getting it. So I'm building a free AI tutoring platform with Anton Tsypko, where it matters most. We're already helping 1300 kids.
-                </p>
-                <a href="https://klepka.org/" class="project-link" target="_blank">klepka.org →</a>
-            </article>
-        </section>
+    <div class="intro">
+      <p>The last few years were a weird mix of grinding Cambridge maths, learning physics, and building random things because I felt like something was missing: hackathons, education tools, communities, side quests, and a quant research internship somewhere in the middle.</p>
+      <p>I treated university a bit like a playground for figuring out what I actually wanted to do. Cambridge was really good for this — lots of rooms, lots of sponsors, and lots of clever people with enough free time to be convinced to organise, build, or show up if the idea sounded fun enough.</p>
+      <p>At some point I realised that even though I really like building social / purposeful things, I also need work that is properly technical and makes my brain hurt. Otherwise I get bored.</p>
+      <p class="quiet">This website is a collection of some of those side quests — and a bit of the motivation behind them and what I took away.</p>
+    </div>
+  </div>
 
-        <section class="projects-section">
-            <h2 class="projects-header">Past projects</h2>
+  <p class="fun-aside">Want a random fun thing? Go check out the <a href="/caustic_coffee.html">coffee mug caustic</a> — the little heart of light at the bottom of your cup</p>
 
-            <article class="project expandable expanded" onclick="toggleProject(this)" aria-expanded="true">
-                <div class="project-top">
-                    <h3>Kudyvstupaty (English: where to study)</h3>
-                    <div class="project-top-right">
-                        <span class="project-tag">Education</span>
-                        <span class="expand-icon">&#9662;</span>
-                    </div>
-                </div>
-                <p class="project-summary">Built the resource I wished I had at 15 - 85+ honest acceptance stories for Ukrainian students applying abroad. 2,500+ students helped so far.</p>
-                <div class="project-details">
-                    <p>
-                        <span class="project-stat">I started Kudyvstupaty</span> because Ukrainian students applying abroad usually have zero real information. University websites are in different languages, every country has its own weird rules, and no one at school knows how any of it actually works.
-                    </p>
-                    <p>
-                        When I was 15, I had to cold-message friends of friends of friends just to understand basic things. Later, when I had easy access to people studying at top universities, I collected <span class="project-stat">85+ honest real acceptance stories</span> and put everything in one place. It took a few days to build and a lot of annoying my friends, but it became exactly the resource I wish I had.
-                    </p>
-                    <p>
-                        So far, it's helped <span class="project-stat">2,500+ Ukrainian students</span> navigate applying abroad during a critical moment for Ukrainian education.
-                    </p>
-                    <a href="https://kudyvstupaty.com" class="project-link" target="_blank">kudyvstupaty.com →</a>
-                </div>
-            </article>
+  <section id="now">
+    <div class="sec-label">Now</div>
+    <div class="project">
+      <div class="proj-head"><h3>Klepka</h3><span class="tag">side project · ongoing</span></div>
+      <p class="proj-summary">Free AI tutoring for Ukrainian students preparing for the NMT, built with Anton Tsypko. 25% of Ukrainian students study online-only; 20% of classes get cancelled by bombings; most families can't afford a tutor. <b>1,500+ students</b> helped so far. I'll keep it alive as long as it's needed.</p>
+      <div class="proj-details">
+        <p>Ukrainian education is in a really bad place right now. 25% of students are studying online-only. 20% of classes get cancelled because of bombings. In the east, more than half don't happen at all.</p>
+        <p>The NMT - the national exam that decides whether you get into university - still happens every year. Kids are expected to prepare like everything is normal. It's not. Most families can't afford a tutor, and if your school barely functions, you're just on your own.</p>
+        <p>I built Kudyvstupaty a few years ago because Ukrainian students had no information about applying abroad. This comes from the same place - these are kids who need help right now and aren't getting it. So I'm building a free AI tutoring platform with Anton Tsypko, where it matters most. We're already helping 1500 kids.</p>
+      </div>
+      <button class="proj-toggle" aria-expanded="false">read more →</button>
+      <div class="verdict"><mark>It mattered a lot to me to build this — but it also taught me that I really care about the technical parts, and this one never had enough of them.</mark></div>
+      <div class="links-row"><a class="plink" href="https://klepka.org">klepka.org →</a></div>
+    </div>
+  </section>
 
-            <article class="project expandable expanded" onclick="toggleProject(this)" aria-expanded="true">
-                <div class="project-top">
-                    <h3>CamHack</h3>
-                    <div class="project-top-right">
-                        <span class="project-tag">Event</span>
-                        <span class="expand-icon">&#9662;</span>
-                    </div>
-                </div>
-                <p class="project-summary">I led Cambridge's largest hackathon. 250+ people building genuinely unhinged projects for 30 hours under the theme "Unintended Behaviour."</p>
-                <div class="project-details">
-                    <p>
-                        I led <a href="https://www.linkedin.com/posts/james-leung-dev_hackathon-cambridge-camhack-ugcPost-7392170231705792512-ZZLR?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD3jTtwBjiQN8607o_vHvV8Vw3m-86XSa6w" target="_blank" class="inline-link">Cambridge's largest hackathon</a>.
-                    </p>
-                    <p>
-                        Most hackathons felt corporate and boring, basically recruitment events with merch. I wanted to create something different, a weekend which students would spend building insane projects.
-                    </p>
-                    <p>
-                        So together with <a href="https://www.leung.dev/" target="_blank" class="inline-link">James</a> we ran CamHack 2025. We ran a slightly insane advertising campaign (including hiding 650 small rubber ducks around the university) and grew it from ~100 to <span class="project-stat">250+ participants</span>.
-                    </p>
-                    <p>
-                        30 hours of building genuinely unhinged projects under the theme "Unintended Behaviour". And it worked!!! The <a href="https://cam-hack-2025.devpost.com/project-gallery" target="_blank" class="inline-link">projects</a> were weird, technically strong, and people actually cared.
-                    </p>
-                </div>
-            </article>
+  <section id="projects">
+    <div class="sec-label">Things I did in the past</div>
 
-            <article class="project expandable" onclick="toggleProject(this)" aria-expanded="false">
-                <div class="project-top">
-                    <h3>Cambridge Game Jam</h3>
-                    <div class="project-top-right">
-                        <span class="project-tag">Event</span>
-                        <span class="expand-icon">&#9662;</span>
-                    </div>
-                </div>
-                <p class="project-summary">I led this - 48 hours to build any game you can dream of. Theme was "Set In Stone." 47 games submitted. Hid ~1000 rubber ducks around Cambridge as marketing - surprisingly effective.</p>
-                <div class="project-details">
-                    <p>
-                        I led this with <a href="https://www.leung.dev/" target="_blank" class="inline-link">James</a> and an amazing team - 48 hours to build any game you can dream of: video games, board games, ARGs. The theme was "Set In Stone" and people went absolutely wild with it. Hid ~1000 rubber ducks around Cambridge as marketing, which turns out is surprisingly effective - we ended up getting people from all kinds of fields, not just CS.
-                    </p>
-                    <p>
-                        <span class="project-stat">47 games</span> were submitted. Someone built a mobster interrogation game where you're accused of killing your brother and have to shift the blame before your feet get set in concrete. Someone made a gaze-controlled snake game designed for people with cerebral palsy. Someone wrote an entire game in Verilog and ran it on an FPGA. There was a Medusa puzzle game, a mahjong tower defence, a kidney stone that travels back in time, and a board game based on Irish mythology.
-                    </p>
-                    <p>
-                        I secured sponsorship from Jane Street, Citadel Securities, Optiver, Anthropic, and others.
-                    </p>
-                    <a href="https://camgamejam.com/" class="project-link" target="_blank">games →</a>
-                </div>
-            </article>
-
-            <article class="project expandable" onclick="toggleProject(this)" aria-expanded="false">
-                <div class="project-top">
-                    <h3>QUACK</h3>
-                    <div class="project-top-right">
-                        <span class="project-tag community">Community</span>
-                        <span class="expand-icon">&#9662;</span>
-                    </div>
-                </div>
-                <p class="project-summary">I started a weekly build night at Cambridge because no one seemed to be making things just for fun. ~100 members, ~30 show up weekly.</p>
-                <div class="project-details">
-                    <p>
-                        Cambridge felt weirdly uncreative - everyone wrapped in deadlines, no space to just build something for fun. I couldn't find people who'd spend evenings making stuff just because.
-                    </p>
-                    <p>
-                        So I started QUACK with <a href="https://www.leung.dev/" target="_blank" class="inline-link">James</a>. It's a weekly, no-pressure build night where people just show up and work on whatever they're excited about.
-                    </p>
-                    <p>
-                        <span class="project-stat">~100 members total</span>, around <span class="project-stat">30 show up weekly</span> to work on AI tools, quantum projects, graphics engines, hardware builds, whatever catches their interest.
-                    </p>
-                    <p>
-                        I secured sponsorship from HRT, Citadel Securities, Optiver and EF for hardware to allow students to build whatever they want.
-                    </p>
-                    <a href="https://www.camquack.com/" class="project-link" target="_blank">camquack.com →</a>
-                </div>
-            </article>
-
-            <article class="project expandable" onclick="toggleProject(this)" aria-expanded="false">
-                <div class="project-top">
-                    <h3>EasyUkrainian</h3>
-                    <div class="project-top-right">
-                        <span class="project-tag">Tool</span>
-                        <span class="expand-icon">&#9662;</span>
-                    </div>
-                </div>
-                <p class="project-summary">Made my own language learning app after installing 24 different ones and not being happy with any of them.</p>
-                <div class="project-details">
-                    <p>
-                        I created my own language learning app for my friends to learn Ukrainian. I learnt German myself from scratch to B2 (upper intermediate) without any courses or classes - just a mix of different apps/websites/approaches.
-                    </p>
-                    <p>
-                        I did not like any app, but I liked parts of many (at some point I had 24 apps installed on my phone - I wanted to experiment to find what worked for me).
-                    </p>
-                    <p>
-                        So I built one place that combines spaced repetition (Anki-style), a chatbot to actually use the language, small games, and structured lessons - all sharing the same vocabulary, so you're not relearning the same words in five different apps.
-                    </p>
-                    <a href="https://youtu.be/rQCVYzErjdk?si=lecxFn3pQVuB5-5P" class="project-link" target="_blank">demo video →</a>
-                </div>
-            </article>
-
-            <article class="project">
-                <div class="project-top">
-                    <h3>My own free SuperWhisper</h3>
-                    <span class="project-tag">Tool</span>
-                </div>
-                <p>
-                    Didn't want to pay for speech-to-text software. Asked Claude to build it for me. That's it.
-                </p>
-                <a href="https://github.com/ronskulia/whisper" class="project-link" target="_blank">github →</a>
-            </article>
-        </section>
-
-        <footer class="footer">
-            <nav class="footer-links">
-                <a href="experience.html">Experience</a>
-                <a href="Uliana Ronska CV.pdf" target="_blank">CV</a>
-                <a href="contact.html">Contact</a>
-                <a href="donate.html">Donate to Ukraine 🇺🇦</a>
-            </nav>
-        </footer>
+    <div class="project">
+      <div class="proj-head"><h3>CamHack</h3><span class="tag">hackathon · 2025</span></div>
+      <p class="proj-summary">I led Cambridge's largest hackathon. 250+ people building genuinely unhinged projects for 30 hours under the theme "Unintended Behaviour."</p>
+      <div class="proj-details">
+        <p>I led <a href="https://www.linkedin.com/posts/james-leung-dev_hackathon-cambridge-camhack-ugcPost-7392170231705792512-ZZLR?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD3jTtwBjiQN8607o_vHvV8Vw3m-86XSa6w" target="_blank">Cambridge's largest hackathon</a>.</p>
+        <p>Most hackathons felt corporate and boring, basically recruitment events with merch. I wanted to create something different, a weekend which students would spend building insane projects.</p>
+        <p>So together with <a href="https://www.leung.dev/" target="_blank">James</a> we ran CamHack 2025. We ran a slightly insane advertising campaign (including hiding 650 small rubber ducks around the university) and grew it from ~100 to <b>250+ participants</b>.</p>
+        <p>30 hours of building genuinely unhinged projects under the theme "Unintended Behaviour". And it worked!!! The <a href="https://cam-hack-2025.devpost.com/project-gallery" target="_blank">projects</a> were weird, technically strong, and people actually cared.</p>
+        <div class="carousel-wrap">
+          <div class="carousel">
+            <img src="/camhack_1.jpg" alt="CamHack" loading="lazy">
+            <img src="/cam_hack_2.jpg" alt="CamHack" loading="lazy">
+            <img src="/cam_hack_3.jpeg" alt="CamHack" loading="lazy">
+            <img src="/camhack_4.jpg" alt="CamHack" loading="lazy">
+            <img src="/cam_hack_5.jpg" alt="CamHack" loading="lazy">
+            <img src="/cam_hack_6.JPG" alt="CamHack" loading="lazy">
+            <img src="/cam_hack_7.jpg" alt="CamHack" loading="lazy">
+            <img src="/cam_hack_8.jpg" alt="CamHack" loading="lazy">
+            <img src="/cam_hack_9.jpg" alt="CamHack" loading="lazy">
+          </div>
+          <button class="carousel-btn prev" type="button" aria-label="Previous photo">‹</button>
+          <button class="carousel-btn next" type="button" aria-label="Next photo">›</button>
+        </div>      </div>
+      <button class="proj-toggle" aria-expanded="false">read more →</button>
+      <div class="verdict"><mark>Very much out of my comfort zone, but probably the best memories from Cambridge.</mark></div>
+      <div class="links-row"><a class="plink" href="https://cam-hack-2025.devpost.com/project-gallery">projects →</a></div>
     </div>
 
-    <script>
-        function toggleProject(el) {
-            if (event.target.closest('a')) return;
-            el.classList.toggle('expanded');
-            el.setAttribute('aria-expanded', el.classList.contains('expanded'));
-        }
-    </script>
+    <div class="project">
+      <div class="proj-head"><h3>Kudyvstupaty</h3><span class="tag">education · 2023–</span></div>
+      <p class="proj-summary">Built the resource I wished I had at 15 - 85+ honest acceptance stories for Ukrainian students applying abroad. 3,300+ students helped so far.</p>
+      <div class="proj-details">
+        <p><b>I started Kudyvstupaty</b> because Ukrainian students applying abroad usually have zero real information. University websites are in different languages, every country has its own weird rules, and no one at school knows how any of it actually works.</p>
+        <p>When I was 15, I had to cold-message friends of friends of friends just to understand basic things. Later, when I had easy access to people studying at top universities, I collected <b>85+ honest real acceptance stories</b> and put everything in one place. It took a few days to build and a lot of annoying my friends, but it became exactly the resource I wish I had.</p>
+        <p>So far, it's helped <b>3,300+ Ukrainian students</b> navigate applying abroad during a critical moment for Ukrainian education.</p>
+      </div>
+      <button class="proj-toggle" aria-expanded="false">read more →</button>
+      <div class="verdict"><mark>A few days of work, 3,300 students helped. The best ratio of anything I've made.</mark></div>
+      <div class="links-row"><a class="plink" href="https://kudyvstupaty.com">kudyvstupaty.com →</a></div>
+    </div>
+
+    <div class="project">
+      <div class="proj-head"><h3>Cambridge Game Jam</h3><span class="tag">event · 2026</span></div>
+      <p class="proj-summary">I led this - 48 hours to build any game you can dream of. Theme was "Set In Stone." 47 games submitted. Hid ~1000 rubber ducks around Cambridge as marketing - surprisingly effective.</p>
+      <div class="proj-details">
+        <p>I led this with <a href="https://www.leung.dev/" target="_blank">James</a> and an amazing team - 48 hours to build any game you can dream of: video games, board games, ARGs. The theme was "Set In Stone" and people went absolutely wild with it. Hid ~1000 rubber ducks around Cambridge as marketing, which turns out is surprisingly effective - we ended up getting people from all kinds of fields, not just CS.</p>
+        <p><a href="https://camgamejam2026.devpost.com/project-gallery" target="_blank">47 games</a> were submitted. Someone built a mobster interrogation game where you're accused of killing your brother and have to shift the blame before your feet get set in concrete. Someone made a gaze-controlled snake game designed for people with cerebral palsy. Someone wrote an entire game in Verilog and ran it on an FPGA. There was a Medusa puzzle game, a mahjong tower defence, a kidney stone that travels back in time, and a board game based on Irish mythology.</p>
+        <p>I secured sponsorship from Jane Street, Citadel Securities, Optiver, Anthropic, and others.</p>
+        <div class="carousel-wrap">
+          <div class="carousel">
+            <img src="/game_jam_2.JPG" alt="Cambridge Game Jam" loading="lazy">
+            <img src="/game_jam_3.jpg" alt="Cambridge Game Jam" loading="lazy">
+            <img src="/game_jam_4.jpg" alt="Cambridge Game Jam" loading="lazy">
+            <img src="/game_jam_5.jpg" alt="Cambridge Game Jam" loading="lazy">
+          </div>
+          <button class="carousel-btn prev" type="button" aria-label="Previous photo">‹</button>
+          <button class="carousel-btn next" type="button" aria-label="Next photo">›</button>
+        </div>      </div>
+      <button class="proj-toggle" aria-expanded="false">read more →</button>
+      <div class="links-row"><a class="plink" href="https://camgamejam.com/">website →</a></div>
+    </div>
+
+    <div class="project">
+      <div class="proj-head"><h3>QUACK</h3><span class="tag">community · 2025–</span></div>
+      <p class="proj-summary">I started a weekly build night at Cambridge because no one seemed to be making things just for fun. ~100 members, ~30 show up weekly.</p>
+      <div class="proj-details">
+        <p>Cambridge felt weirdly uncreative - everyone wrapped in deadlines, no space to just build something for fun. I couldn't find people who'd spend evenings making stuff just because.</p>
+        <p>So I started QUACK with <a href="https://www.leung.dev/" target="_blank">James</a>. It's a weekly, no-pressure build night where people just show up and work on whatever they're excited about.</p>
+        <p><b>~100 members total</b>, around <b>30 show up weekly</b> to work on AI tools, quantum projects, graphics engines, hardware builds, whatever catches their interest.</p>
+        <p>I secured sponsorship from HRT, Citadel Securities, Optiver and EF for hardware to allow students to build whatever they want.</p>
+        <div class="carousel-wrap">
+          <div class="carousel">
+            <img src="/quack_1.jpg" alt="QUACK" loading="lazy">
+            <img src="/quack_2.jpg" alt="QUACK" loading="lazy">
+            <img src="/quack_3.jpg" alt="QUACK" loading="lazy">
+            <img src="/quack_4.jpg" alt="QUACK" loading="lazy">
+          </div>
+          <button class="carousel-btn prev" type="button" aria-label="Previous photo">‹</button>
+          <button class="carousel-btn next" type="button" aria-label="Next photo">›</button>
+        </div>
+      </div>
+      <button class="proj-toggle" aria-expanded="false">read more →</button>
+      <div class="verdict"><mark>Really happy I did it — so fun seeing people spend their evenings building something fun.</mark></div>
+      <div class="links-row"><a class="plink" href="https://www.camquack.com/">camquack.com →</a></div>
+    </div>
+
+    <div class="project">
+      <div class="proj-head"><h3>EasyUkrainian</h3><span class="tag">tool</span></div>
+      <p class="proj-summary">Made my own language learning app after installing 24 different ones and not being happy with any of them.</p>
+      <div class="proj-details">
+        <p>I created my own language learning app for my friends to learn Ukrainian. I learnt German myself from scratch to B2 (upper intermediate) without any courses or classes - just a mix of different apps/websites/approaches.</p>
+        <p>I did not like any app, but I liked parts of many (at some point I had 24 apps installed on my phone - I wanted to experiment to find what worked for me).</p>
+        <p>So I built one place that combines spaced repetition (Anki-style), a chatbot to actually use the language, small games, and structured lessons - all sharing the same vocabulary, so you're not relearning the same words in five different apps.</p>
+      </div>
+      <button class="proj-toggle" aria-expanded="false">read more →</button>
+      <div class="links-row"><a class="plink" href="https://youtu.be/rQCVYzErjdk?si=lecxFn3pQVuB5-5P">demo video →</a></div>
+    </div>
+
+    <div class="smaller">
+      <ul>
+        <li><b>Free SuperWhisper</b> — didn't want to pay for speech-to-text, so I asked Claude to build it. That's it. <a href="https://github.com/ronskulia/whisper">github →</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="technical">
+    <div class="sec-label">The technical side</div>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <h4>Citadel Securities</h4>
+        <div class="when">QUANT RESEARCH INTERN · 2025</div>
+        <p>ML for large-scale time-series prediction — temporal convolutional networks, transformers, autoencoders — beating internal baselines on multi-TB financial data.</p>
+      </div>
+      <div class="tech-item">
+        <h4>Maths, University of Cambridge</h4>
+        <div class="when">2023 – 2026</div>
+        <p>Full scholarship. Spent three years maxing out side quests and doing the things I cared about.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <a href="/Uliana Ronska CV.pdf">cv</a>
+      <a href="/random.html">random</a>
+      <a href="/contact.html">contact</a>
+      <a href="/donate.html" class="ua">donate<span class="ua-full"> to Ukraine</span> 🇺🇦</a>
+    </div>
+    <div class="counter" title="Like the ones around Cambridge. Some were never found.">
+      🦆 <b id="duck-found">0</b> / <span id="duck-total">6</span> ducks found
+    </div>
+  </footer>
+
+</div>
+
+<div class="ducks" id="ducks" aria-hidden="true"></div>
+
+<script>
+(function () {
+  // ---- expandable route ----
+  var mid = document.getElementById('routeMid');
+  var toggle = document.getElementById('routeToggle');
+  if (mid && toggle) {
+    var places = mid.querySelector('.places');
+    function openRoute() { mid.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+    function closeRoute() { mid.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.focus(); }
+    toggle.addEventListener('click', openRoute);
+    places.addEventListener('click', closeRoute);
+    places.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); closeRoute(); }
+    });
+  }
+
+  // ---- expandable "now" section ----
+  var nowSide = document.getElementById('nowSide');
+  var nowToggle = document.getElementById('nowToggle');
+  if (nowSide && nowToggle) {
+    nowToggle.addEventListener('click', function () {
+      var open = nowSide.classList.toggle('open');
+      nowToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      nowToggle.textContent = open ? 'show less ↑' : 'read more →';
+    });
+  }
+
+  // ---- expandable project cards ----
+  document.querySelectorAll('.proj-toggle').forEach(function (btn) {
+    var card = btn.closest('.project');
+    var hasPics = !!card.querySelector('.carousel');
+    var moreLabel = hasPics ? 'read more & <b>see pictures!</b>' : 'read more →';
+    btn.innerHTML = moreLabel;
+    btn.addEventListener('click', function () {
+      var open = card.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.innerHTML = open ? 'show less ↑' : moreLabel;
+    });
+  });
+
+  // ---- image carousels ----
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.carousel-wrap').forEach(function (wrap) {
+    var car = wrap.querySelector('.carousel');
+    var count = car.querySelectorAll('img').length;
+    var raf = null;
+    function width() { return car.clientWidth || 1; }
+    // Animate scrollLeft ourselves (snap temporarily off) so every move —
+    // including the last→first wrap — glides instead of teleporting.
+    function goTo(idx) {
+      var target = idx * width();
+      if (reduceMotion) { car.scrollLeft = target; updateDots(); return; }
+      if (raf) cancelAnimationFrame(raf);
+      car.style.scrollSnapType = 'none';
+      var start = car.scrollLeft, dist = target - start, t0 = null, dur = 420;
+      function frame(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; // easeInOut
+        car.scrollLeft = start + dist * e;
+        if (p < 1) { raf = requestAnimationFrame(frame); }
+        else { raf = null; car.style.scrollSnapType = ''; updateDots(); }
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    function step(dir) {
+      var cur = Math.round(car.scrollLeft / width());
+      goTo((cur + dir + count) % count);
+    }
+    var prev = wrap.querySelector('.prev');
+    var next = wrap.querySelector('.next');
+    if (prev) prev.addEventListener('click', function () { step(-1); });
+    if (next) next.addEventListener('click', function () { step(1); });
+
+    // dots showing which photo you're on
+    var dots = document.createElement('div');
+    dots.className = 'carousel-dots';
+    for (var k = 0; k < count; k++) {
+      (function (idx) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Go to photo ' + (idx + 1));
+        b.addEventListener('click', function () { goTo(idx); });
+        dots.appendChild(b);
+      })(k);
+    }
+    wrap.insertAdjacentElement('afterend', dots);
+    function updateDots() {
+      var cur = Math.round(car.scrollLeft / width());
+      for (var i = 0; i < dots.children.length; i++) {
+        dots.children[i].classList.toggle('active', i === cur);
+      }
+    }
+    updateDots();
+    var t;
+    car.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(updateDots, 80); });
+  });
+
+  // ---- hidden ducks ----
+  var duckSVG =
+    '<svg viewBox="0 0 64 56" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs>' +
+    '<linearGradient id="duckGrad" x1="0" y1="0" x2="1" y2="1">' +
+    '<stop offset="0" stop-color="#FFE58A"/>' +
+    '<stop offset="0.55" stop-color="#FFD23F"/>' +
+    '<stop offset="1" stop-color="#F5981D"/>' +
+    '</linearGradient>' +
+    '</defs>' +
+    '<ellipse cx="29" cy="40" rx="23" ry="14" fill="url(#duckGrad)"/>' +
+    '<path d="M20 38 q9 8 20 2" fill="none" stroke="#E9B824" stroke-width="2" stroke-linecap="round"/>' +
+    '<circle cx="44" cy="21" r="12" fill="url(#duckGrad)"/>' +
+    '<path d="M54 20 q10 1 8 6 q-5 3 -9 -1 z" fill="#F5981D"/>' +
+    '<circle cx="46" cy="18" r="2" fill="#141821"/>' +
+    '</svg>';
+
+  // positions: gutter ducks sit outside the 720px column on wide screens;
+  // inline ducks stay findable on mobile too.
+  var spots = [
+    { top: '9%',  side: 'left',  off: 26, gutter: true,  rot: -8,  op: 0.14 }, // original subtle
+    { top: '31%', side: 'right', off: 20, gutter: true,  rot: 12,  op: 0.14 }, // original subtle
+    { top: '48%', side: 'left',  off: 40, gutter: true,  rot: -4,  op: 0.27 }, // slightly more visible
+    { top: '63%', side: 'right', off: 34, gutter: true,  rot: 9,   op: 0.14 }, // original subtle
+    { top: '21%', side: 'right', off: 4,  gutter: false, rot: 14,  op: 0.14 }, // original subtle, stays on mobile
+    { top: '80%', side: 'left',  off: 6,  gutter: false, rot: -12, op: 0.42 } // even more visible, stays on mobile
+  ];
+
+  var container = document.getElementById('ducks');
+  var foundEl = document.getElementById('duck-found');
+  var total = spots.length;
+  document.getElementById('duck-total').textContent = total;
+  var found = 0;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  spots.forEach(function (s) {
+    var d = document.createElement('div');
+    d.className = 'hduck' + (s.gutter ? ' gutter' : '');
+    d.innerHTML = duckSVG;
+    d.style.top = s.top;
+    d.style.setProperty('--base', s.op);
+    d.style.transform = 'rotate(' + s.rot + 'deg)';
+    // gutter ducks: push into the margin beside the content column
+    if (s.gutter) {
+      d.style[s.side] = 'max(' + s.off + 'px, calc((100% - 720px) / 2 - ' + s.off + 'px))';
+    } else {
+      d.style[s.side] = s.off + 'px';
+    }
+    d.addEventListener('click', function () {
+      if (d.classList.contains('found')) return;
+      d.classList.add('found');
+      if (!reduce) {
+        d.classList.remove('wiggle'); void d.offsetWidth; d.classList.add('wiggle');
+      }
+      found++;
+      foundEl.textContent = found;
+      if (found === total) {
+        foundEl.parentElement.innerHTML = '🦆 all ' + total + ' found. you have too much free time (respect).';
+      }
+    });
+    container.appendChild(d);
+  });
+})();
+</script>
+
 </body>
 </html>

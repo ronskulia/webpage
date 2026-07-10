@@ -4,6 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Coffee Mug Caustic</title>
+<link rel="apple-touch-icon" sizes="180x180" href="/Text%20to%20Favicon%20Generator/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/Text%20to%20Favicon%20Generator/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/Text%20to%20Favicon%20Generator/favicon-16x16.png">
+<link rel="icon" href="/Text%20to%20Favicon%20Generator/favicon.ico">
+<link rel="manifest" href="/Text%20to%20Favicon%20Generator/site.webmanifest">
+<meta name="theme-color" content="#1a1410">
 <style>
   :root {
     --bg: #1a1410;
@@ -129,6 +135,36 @@
   .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); margin-top: 2px; }
   .legend span { display: flex; align-items: center; gap: 6px; }
   .legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+
+  /* prominent range-of-lengths control */
+  .range-toggle {
+    display: flex; align-items: flex-start; gap: 11px;
+    padding: 13px 14px; border-radius: 12px;
+    background: linear-gradient(180deg, rgba(243,198,119,.12), rgba(243,198,119,.03));
+    border: 1px solid var(--accent-2);
+    cursor: pointer; user-select: none;
+    transition: .15s;
+  }
+  .range-toggle:hover { border-color: var(--accent); background: linear-gradient(180deg, rgba(243,198,119,.18), rgba(243,198,119,.05)); }
+  .range-toggle input { accent-color: var(--accent-2); width: 17px; height: 17px; margin-top: 1px; flex: 0 0 auto; cursor: pointer; }
+  .rt-text { display: flex; flex-direction: column; gap: 3px; }
+  .rt-title { font-size: 13.5px; font-weight: 700; color: var(--text); }
+  .rt-desc { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+
+  /* collapsible "open up" boxes */
+  details.box { border: 1px solid var(--line); border-radius: 12px; background: var(--panel-2); }
+  details.box > summary {
+    list-style: none; cursor: pointer; padding: 11px 14px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--accent); font-weight: 700;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  details.box > summary::-webkit-details-marker { display: none; }
+  details.box > summary::after { content: "+"; color: var(--muted); font-size: 16px; font-weight: 400; line-height: 1; }
+  details.box[open] > summary::after { content: "\2013"; }
+  details.box > summary:hover { color: #fff; }
+  .box-inner { padding: 2px 14px 14px; display: flex; flex-direction: column; gap: 13px; }
+  .box-inner .sub { margin: 0; }
 </style>
 </head>
 <body>
@@ -147,38 +183,30 @@
   <div class="panel">
     <div>
       <h1>Coffee Mug Caustic</h1>
-      <p class="sub">Parallel light rays hit the inside of the mug, reflect, and travel a fixed length. Sweeping the beam across the circle traces a bright <b>nephroid</b> — the caustic you see in your coffee.</p>
+      <p class="sub">On a sunny day you'll spot a bright curl of light at the bottom of a mug. Parallel light reflects off the shiny curved wall, and the reflected rays bunch together along a heart-shaped curve — a <b>nephroid</b>. That glowing pile-up is the caustic.</p>
     </div>
 
-    <div class="group">
-      <h2>Beam</h2>
+    <div id="lenControls" class="group">
+      <label class="range-toggle">
+        <input type="checkbox" id="rangeMode" checked />
+        <span class="rt-text">
+          <span class="rt-title">Range of lengths</span>
+          <span class="rt-desc">Draw every reflected distance at once so the whole caustic fills in. Turn off to see just one distance.</span>
+        </span>
+      </label>
       <div class="ctrl">
-        <div class="row"><label>Number of rays</label><span class="val" id="numVal"></span></div>
-        <input id="num" type="range" min="3" max="400" step="1" value="120" />
+        <div class="row"><label id="lenLabel">Min length</label><span class="val" id="lenVal"></span></div>
+        <input id="len" type="range" min="0" max="2" step="0.01" value="0" />
       </div>
-      <div class="ctrl">
-        <div class="row"><label>Light direction</label><span class="val" id="angVal"></span></div>
-        <input id="ang" type="range" min="0" max="360" step="1" value="180" />
+      <div class="ctrl" id="lenMaxCtrl">
+        <div class="row"><label>Max length</label><span class="val" id="lenMaxVal"></span></div>
+        <input id="lenMax" type="range" min="0.05" max="2" step="0.01" value="1" />
       </div>
-      <div id="lenControls">
-        <label class="toggle"><input type="checkbox" id="rangeMode" /> Range of lengths</label>
-        <div class="ctrl">
-          <div class="row"><label id="lenLabel">Reflected ray length</label><span class="val" id="lenVal"></span></div>
-          <input id="len" type="range" min="0.05" max="2" step="0.01" value="0.62" />
-        </div>
-        <div class="ctrl" id="lenMaxCtrl" style="display:none">
-          <div class="row"><label>Max length</label><span class="val" id="lenMaxVal"></span></div>
-          <input id="lenMax" type="range" min="0.05" max="2" step="0.01" value="1.25" />
-        </div>
-        <div class="ctrl" id="lenStepsCtrl" style="display:none">
-          <div class="row"><label>Length steps</label><span class="val" id="lenStepsVal"></span></div>
-          <input id="lenSteps" type="range" min="2" max="80" step="1" value="30" />
-        </div>
-        <div class="ctrl">
-          <div class="row"><label>Glow intensity</label><span class="val" id="gainVal"></span></div>
-          <input id="gain" type="range" min="1" max="100" step="1" value="45" />
-        </div>
-      </div>
+    </div>
+
+    <div class="btns">
+      <button id="play" class="primary">Pause</button>
+      <button id="reset">Reset</button>
     </div>
 
     <div class="group" id="group3d" style="display:none">
@@ -196,41 +224,53 @@
       </div>
     </div>
 
-    <div class="group">
-      <h2>Animation</h2>
-      <div class="ctrl">
-        <div class="row"><label>Sweep speed</label><span class="val" id="spdVal"></span></div>
-        <input id="spd" type="range" min="0" max="100" step="1" value="35" />
+    <details class="box">
+      <summary>More controls</summary>
+      <div class="box-inner">
+        <div class="ctrl">
+          <div class="row"><label>Number of rays</label><span class="val" id="numVal"></span></div>
+          <input id="num" type="range" min="3" max="400" step="1" value="120" />
+        </div>
+        <div class="ctrl">
+          <div class="row"><label>Light direction</label><span class="val" id="angVal"></span></div>
+          <input id="ang" type="range" min="0" max="360" step="1" value="180" />
+        </div>
+        <div class="ctrl" id="lenStepsCtrl">
+          <div class="row"><label>Length steps</label><span class="val" id="lenStepsVal"></span></div>
+          <input id="lenSteps" type="range" min="2" max="80" step="1" value="30" />
+        </div>
+        <div class="ctrl" id="gainCtrl">
+          <div class="row"><label>Glow intensity</label><span class="val" id="gainVal"></span></div>
+          <input id="gain" type="range" min="1" max="100" step="1" value="45" />
+        </div>
+        <div class="ctrl" id="spdCtrl">
+          <div class="row"><label>Sweep speed</label><span class="val" id="spdVal"></span></div>
+          <input id="spd" type="range" min="0" max="100" step="1" value="35" />
+        </div>
       </div>
-      <div class="btns">
-        <button id="play" class="primary">Pause</button>
-        <button id="reset">Reset</button>
+    </details>
+
+    <details class="box">
+      <summary>Display</summary>
+      <div class="box-inner">
+        <label class="toggle"><input type="checkbox" id="showIncoming" checked /> Incoming rays</label>
+        <label class="toggle"><input type="checkbox" id="showReflected" checked /> Reflected rays</label>
+        <label class="toggle"><input type="checkbox" id="showPoints" checked /> Endpoint dots</label>
+        <label class="toggle"><input type="checkbox" id="sweepMode" checked /> Sweep one ray (build up)</label>
       </div>
-    </div>
+    </details>
 
-    <div class="group">
-      <h2>Display</h2>
-      <label class="toggle"><input type="checkbox" id="showIncoming" checked /> Incoming rays</label>
-      <label class="toggle"><input type="checkbox" id="showReflected" checked /> Reflected rays</label>
-      <label class="toggle"><input type="checkbox" id="showPoints" checked /> Endpoint dots</label>
-      <label class="toggle"><input type="checkbox" id="sweepMode" checked /> Sweep one ray (build up)</label>
-    </div>
-
-    <div class="group explain" id="explain">
-      <h2>Why a fixed length?</h2>
-      <p class="sub">Light comes in tilted by <b>α</b> above the table. It hits the <b>vertical</b> mug wall, whose normal is horizontal — so reflection only flips the <i>sideways</i> direction and leaves the downward slope untouched. Every ray keeps descending at the same angle.</p>
-      <p class="sub">To reach the coffee at the bottom, each ray drops the same height <b>h</b>. Same drop + same slope ⇒ the same horizontal run <b>L = h / tan α</b>. The rays leave the wall in <i>different directions</i> but travel the <i>same length</i> — so their landing points fan out into the caustic. That is exactly the fixed-length picture in the 2D view.</p>
-      <div class="legend">
-        <span><i style="background:#66d9ef"></i>height h</span>
-        <span><i style="background:#8ef58e"></i>run L</span>
-        <span><i style="background:#ffb15a"></i>reflected ray</span>
+    <details class="box explain">
+      <summary>How it works</summary>
+      <div class="box-inner">
+        <p class="sub">Light comes in parallel, like the sun, and bounces off the curved inside wall. Each ray leaves in a slightly different direction — but wherever lots of reflected rays cross, the light stacks up. That bright envelope is the <b>caustic</b>.</p>
+        <p class="sub">Every ray travels the same distance down to the coffee, so dropping a dot that same length along each one and letting them overlap reveals exactly where the light concentrates: the heart-shaped nephroid.</p>
+        <div class="legend">
+          <span><i style="background:#8ef58e"></i>reflected rays</span>
+          <span><i style="background:#ffce8c"></i>where they pile up = caustic</span>
+        </div>
       </div>
-    </div>
-
-    <div class="footer">
-      <b>Range of lengths:</b> each ray drops points at many lengths at once. Where points pile up, the color gets brighter — that density <b>is</b> the caustic's intensity.<br>
-      <b>Sweep on:</b> one ray builds the picture up over time. <b>Off:</b> all rays at once.
-    </div>
+    </details>
   </div>
 </div>
 
@@ -245,6 +285,7 @@ const els = {
   lenSteps: document.getElementById('lenSteps'),
   lenMaxCtrl: document.getElementById('lenMaxCtrl'),
   lenStepsCtrl: document.getElementById('lenStepsCtrl'),
+  gainCtrl: document.getElementById('gainCtrl'),
   lenLabel: document.getElementById('lenLabel'),
   num: document.getElementById('num'),
   ang: document.getElementById('ang'),
@@ -543,11 +584,22 @@ function fmt() {
 els.gain.addEventListener('input', () => { fmt(); accDirty = true; });
 els.spd.addEventListener('input', fmt);
 
-els.rangeMode.addEventListener('change', () => {
+// single source of truth for which length controls are visible (shared with the 3D view)
+function updateCtrlVisibility() {
   const on = els.rangeMode.checked;
+  const is3d = !!window.__is3d;
   els.lenMaxCtrl.style.display = on ? '' : 'none';
-  els.lenStepsCtrl.style.display = on ? '' : 'none';
+  els.lenStepsCtrl.style.display = (on && !is3d) ? '' : 'none';
+  els.gainCtrl.style.display = is3d ? 'none' : '';
   els.lenLabel.textContent = on ? 'Min length' : 'Reflected ray length';
+}
+window.updateCtrlVisibility = updateCtrlVisibility;
+
+els.rangeMode.addEventListener('change', () => {
+  // leaving range mode with a 0 length would look empty — give it a sensible single distance
+  if (!els.rangeMode.checked && parseFloat(els.len.value) < 0.1) els.len.value = 0.62;
+  updateCtrlVisibility();
+  fmt();
   resetAccumulation();
 });
 
@@ -561,6 +613,7 @@ els.sweepMode.addEventListener('change', resetAccumulation);
 
 resize();
 fmt();
+updateCtrlVisibility();
 requestAnimationFrame(frame);
 </script>
 
@@ -777,6 +830,8 @@ function showView(is3d) {
   g('group3d').style.display = is3d ? '' : 'none';
   g('lenControls').style.display = is3d ? 'none' : '';
   g('hint3d').style.display = is3d ? 'block' : 'none';
+  window.__is3d = is3d;
+  if (window.updateCtrlVisibility) window.updateCtrlVisibility();
   if (is3d) { resize3D(); build(); }
 }
 tab2d.addEventListener('click', () => showView(false));

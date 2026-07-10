@@ -18,7 +18,8 @@
     <link rel="icon" href="/Text%20to%20Favicon%20Generator/favicon.ico">
     <link rel="manifest" href="/Text%20to%20Favicon%20Generator/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
-    <title>Uliana Ronska — Contact</title>
+    <title>Uliana Ronska — Random</title>
+    <meta name="description" content="Little physics simulations Uliana Ronska built for fun — caustics, shadows, and the Ising model.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -64,24 +65,26 @@
       a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
       /* content */
-      .page { padding: 72px 0 20px; }
+      .page { padding: 80px 0 20px; }
       .page h1 {
         font-family: 'Newsreader', Georgia, serif;
         font-size: 27px;
         font-weight: 500; letter-spacing: -0.01em; line-height: 1.2;
-        margin-bottom: 32px;
+        margin-bottom: 16px;
       }
-      .contact-item { margin-bottom: 26px; }
-      .contact-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-        color: var(--ink-soft); margin-bottom: 5px;
+      .lead { color: var(--ink-soft); max-width: 600px; margin-bottom: 44px; }
+
+      .sim { padding: 24px 0; border-top: 1px solid var(--line); }
+      .sim:first-of-type { border-top: none; padding-top: 0; }
+      .sim-title {
+        display: inline-block;
+        font-size: 21px; font-weight: 600; letter-spacing: -0.015em;
+        color: var(--ink); text-decoration: none;
+        border-bottom: 1px solid transparent;
       }
-      .contact-item a {
-        color: var(--blue); font-size: 19px; text-decoration: none;
-        border-bottom: 1px solid rgba(43,76,155,.3);
-      }
-      .contact-item a:hover { border-bottom-color: var(--blue); }
+      .sim-title .arrow { color: var(--blue); }
+      .sim-title:hover { border-bottom-color: var(--duck); }
+      .sim-desc { margin-top: 7px; color: var(--ink-soft); font-size: 16px; max-width: 620px; }
 
       /* footer */
       footer {
@@ -105,23 +108,29 @@
       <a href="/" class="name">Uliana Ronska</a>
       <nav>
         <a href="/Uliana Ronska CV.pdf">cv</a>
-        <a href="/random.html">random</a>
-        <a href="/contact.html" class="active">contact</a>
+        <a href="/random.html" class="active">random</a>
+        <a href="/contact.html">contact</a>
         <a href="/donate.html" class="ua">donate<span class="ua-full"> to Ukraine</span> 🇺🇦</a>
       </nav>
     </header>
 
     <section class="page">
-      <h1>Get in touch</h1>
+      <h1>Random</h1>
+      <p class="lead">Little physics simulations I built for fun. Best on a laptop.</p>
 
-      <div class="contact-item">
-        <div class="contact-label">Email</div>
-        <a href="mailto:u.ronskaya@gmail.com">u.ronskaya at gmail.com</a>
+      <div class="sim">
+        <a class="sim-title" href="/caustic_coffee.html">Coffee Mug Caustic <span class="arrow">→</span></a>
+        <p class="sim-desc">That bright, heart-shaped curve of light at the bottom of a coffee mug — the caustic (a nephroid), traced out ray by ray.</p>
       </div>
 
-      <div class="contact-item">
-        <div class="contact-label">LinkedIn</div>
-        <a href="https://www.linkedin.com/in/uliana-ronska" target="_blank">linkedin.com/in/uliana-ronska</a>
+      <div class="sim">
+        <a class="sim-title" href="/shadows_magnetic.html">Penumbra — magnetic shadows <span class="arrow">→</span></a>
+        <p class="sim-desc">Why two shadows seem to reach out and merge as they get close — the "magnetic shadow" effect, all down to the light source having width.</p>
+      </div>
+
+      <div class="sim">
+        <a class="sim-title" href="/ising_simulator.html">Ising Model Simulator <span class="arrow">→</span></a>
+        <p class="sim-desc">An interactive 1D &amp; 2D Ising model — watch magnetic spins order and disorder as you cross the ferromagnetic phase transition.</p>
       </div>
     </section>
 
@@ -129,7 +138,7 @@
       <div>
         <a href="/">home</a>
         <a href="/Uliana Ronska CV.pdf">cv</a>
-        <a href="/random.html">random</a>
+        <a href="/contact.html">contact</a>
         <a href="/donate.html" class="ua">donate to Ukraine 🇺🇦</a>
       </div>
     </footer>
