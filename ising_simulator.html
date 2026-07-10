@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ising Model Simulator — 1D &amp; 2D Ferromagnetism</title>
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --panel: #141a2b;
+    --panel-2: #1b2237;
+    --ink: #e8ecf6;
+    --muted: #9aa6c4;
+    --accent: #ff5470;
+    --accent-2: #4dd0e1;
+    --up: #ff5470;
+    --down: #2e3a5f;
+    --grid: #263156;
+    --good: #6fe38a;
+    --warn: #ffd166;
+    font-synthesis: none;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(1200px 800px at 80% -10%, #1a2340 0%, var(--bg) 55%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  header {
+    padding: 28px 24px 8px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(24px, 3.5vw, 38px);
+    letter-spacing: -0.02em;
+  }
+  h1 .accent { color: var(--accent); }
+  .subtitle { color: var(--muted); max-width: 760px; font-size: 15px; }
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 24px 60px;
+  }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin: 18px 0 20px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    background: var(--panel);
+    border: 1px solid var(--grid);
+    color: var(--muted);
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .tab:hover { color: var(--ink); border-color: var(--accent-2); }
+  .tab.active {
+    background: linear-gradient(135deg, var(--accent), #c53d5b);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 6px 20px -8px var(--accent);
+  }
+  .view { display: none; }
+  .view.active { display: block; }
+  .layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--grid);
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .panel h3 {
+    margin: 0 0 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .control { margin-bottom: 16px; }
+  .control label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .control label .val { color: var(--accent-2); font-variant-numeric: tabular-nums; font-weight: 600; }
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  button.action {
+    flex: 1;
+    min-width: 90px;
+    background: var(--panel-2);
+    border: 1px solid var(--grid);
+    color: var(--ink);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  button.action:hover { border-color: var(--accent-2); background: #232c47; }
+  button.action.primary {
+    background: linear-gradient(135deg, var(--accent-2), #2596a5);
+    color: #04222a;
+    border-color: transparent;
+  }
+  button.action.primary:hover { filter: brightness(1.1); }
+  button.action:disabled { opacity: 0.4; cursor: not-allowed; }
+  .canvas-wrap {
+    background: var(--panel);
+    border: 1px solid var(--grid);
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  canvas { display: block; width: 100%; border-radius: 10px; background: #070a12; }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 520px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat {
+    background: var(--panel-2);
+    border: 1px solid var(--grid);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .stat .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat .v { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .phase-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .phase-ferro { background: rgba(255,84,112,0.18); color: var(--accent); }
+  .phase-para { background: rgba(77,208,225,0.18); color: var(--accent-2); }
+  .plots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  @media (max-width: 880px) { .plots { grid-template-columns: 1fr; } }
+  .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  details.explain {
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--grid);
+    border-radius: 16px;
+    padding: 6px 20px;
+  }
+  details.explain summary {
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 700;
+    padding: 14px 0;
+    list-style: none;
+  }
+  details.explain summary::-webkit-details-marker { display: none; }
+  details.explain summary::before { content: "▸ "; color: var(--accent); }
+  details.explain[open] summary::before { content: "▾ "; }
+  .explain-body { padding-bottom: 18px; color: #cdd5ea; }
+  .explain-body h4 { color: var(--accent-2); margin: 18px 0 6px; }
+  .explain-body code {
+    background: var(--panel-2);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: var(--warn);
+  }
+  .eq {
+    background: var(--panel-2);
+    border-left: 3px solid var(--accent);
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin: 12px 0;
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+  .legend { display: flex; gap: 16px; font-size: 12px; color: var(--muted); align-items: center; }
+  .legend .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: var(--panel-2); color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="accent">Ising</span> Model Simulator</h1>
+  <p class="subtitle">
+    A simulation of magnetism. Each cell is a tiny magnet (a "spin") that points up or down.
+    Turn up the temperature and watch the order fall apart — it shows why magnets lose their
+    magnetism when they get hot.
+  </p>
+</header>
+
+<main>
+  <div class="tabs">
+    <div class="tab active" data-view="v2d">2D Lattice</div>
+    <div class="tab" data-view="v1d">1D Chain</div>
+  </div>
+
+  <!-- ================= 2D VIEW ================= -->
+  <section class="view active" id="v2d">
+    <div class="layout">
+      <div class="panel">
+        <h3>Parameters</h3>
+        <div class="control">
+          <label>Temperature <span class="val" id="t2d-v">2.27</span></label>
+          <input type="range" id="t2d" min="0.05" max="6" step="0.01" value="2.27" />
+          <div class="note">Critical T<sub>c</sub> ≈ 2.269 (for J=1)</div>
+        </div>
+        <div class="control">
+          <label>Coupling J <span class="val" id="j2d-v">1.0</span></label>
+          <input type="range" id="j2d" min="-1" max="2" step="0.05" value="1" />
+          <div class="note">J&gt;0 ferromagnetic · J&lt;0 antiferromagnetic</div>
+        </div>
+        <div class="control">
+          <label>External field h <span class="val" id="h2d-v">0.00</span></label>
+          <input type="range" id="h2d" min="-2" max="2" step="0.05" value="0" />
+        </div>
+        <div class="control">
+          <label>Lattice size <span class="val" id="n2d-v">80</span></label>
+          <input type="range" id="n2d" min="16" max="160" step="8" value="80" />
+        </div>
+        <div class="control">
+          <label>Speed (sweeps/frame) <span class="val" id="spd2d-v">3</span></label>
+          <input type="range" id="spd2d" min="1" max="30" step="1" value="3" />
+        </div>
+        <div class="btn-row" style="margin-bottom:10px;">
+          <button class="action primary" id="run2d">▶ Run</button>
+          <button class="action" id="step2d">Step</button>
+        </div>
+        <div class="btn-row">
+          <button class="action" id="hot2d">Randomize (hot)</button>
+          <button class="action" id="cold2d">Align (cold)</button>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="lattice2d" width="520" height="520"></canvas>
+        <div class="legend">
+          <span><span class="swatch" style="background:#ff5470"></span>spin +1 (↑)</span>
+          <span><span class="swatch" style="background:#2e3a5f"></span>spin −1 (↓)</span>
+          <span id="phase2d" class="phase-badge phase-para">paramagnetic</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="k">Magnetization ⟨M⟩</div><div class="v" id="m2d">0.00</div></div>
+          <div class="stat"><div class="k">Energy / site</div><div class="v" id="e2d">0.00</div></div>
+          <div class="stat"><div class="k">|M| (order)</div><div class="v" id="am2d">0.00</div></div>
+          <div class="stat"><div class="k">Sweeps</div><div class="v" id="sw2d">0</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 1D VIEW ================= -->
+  <section class="view" id="v1d">
+    <div class="layout">
+      <div class="panel">
+        <h3>Parameters</h3>
+        <div class="control">
+          <label>Temperature <span class="val" id="t1d-v">1.00</span></label>
+          <input type="range" id="t1d" min="0.02" max="6" step="0.01" value="1" />
+          <div class="note">1D has <strong>no</strong> phase transition (T<sub>c</sub>=0)</div>
+        </div>
+        <div class="control">
+          <label>Coupling J <span class="val" id="j1d-v">1.0</span></label>
+          <input type="range" id="j1d" min="-1" max="2" step="0.05" value="1" />
+        </div>
+        <div class="control">
+          <label>External field h <span class="val" id="h1d-v">0.00</span></label>
+          <input type="range" id="h1d" min="-2" max="2" step="0.05" value="0" />
+        </div>
+        <div class="control">
+          <label>Chain length <span class="val" id="n1d-v">400</span></label>
+          <input type="range" id="n1d" min="50" max="1000" step="50" value="400" />
+        </div>
+        <div class="control">
+          <label>Speed (sweeps/frame) <span class="val" id="spd1d-v">2</span></label>
+          <input type="range" id="spd1d" min="1" max="30" step="1" value="2" />
+        </div>
+        <div class="btn-row" style="margin-bottom:10px;">
+          <button class="action primary" id="run1d">▶ Run</button>
+          <button class="action" id="step1d">Step</button>
+        </div>
+        <div class="btn-row">
+          <button class="action" id="hot1d">Randomize (hot)</button>
+          <button class="action" id="cold1d">Align (cold)</button>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="chain1d" width="520" height="140"></canvas>
+        <div class="note">Space–time view: each new row is the chain one sweep later (top = now, scrolling down).</div>
+        <canvas id="spacetime1d" width="520" height="300"></canvas>
+        <div class="stats">
+          <div class="stat"><div class="k">Magnetization ⟨M⟩</div><div class="v" id="m1d">0.00</div></div>
+          <div class="stat"><div class="k">Energy / site</div><div class="v" id="e1d">0.00</div></div>
+          <div class="stat"><div class="k">|M| (order)</div><div class="v" id="am1d">0.00</div></div>
+          <div class="stat"><div class="k">Sweeps</div><div class="v" id="sw1d">0</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPLANATION ================= -->
+  <details class="explain" open>
+    <summary>What is this?</summary>
+    <div class="explain-body">
+      <p>
+        This is the <strong>Ising model</strong> — a simple simulation of a magnet. Each square is a
+        tiny magnet ("spin") pointing up or down, and neighbours prefer to point the same way.
+      </p>
+      <p>
+        <strong>Why it's cool:</strong> from this one simple rule you get real magnetism, and you can
+        watch order appear and disappear on screen.
+      </p>
+      <p>
+        <strong>The main idea:</strong> when it's cold, the spins line up and the material is magnetic.
+        Turn up the temperature and the heat randomly flips spins until they no longer agree — the
+        alignment breaks and the magnetism goes away. That's why <strong>magnets lose their magnetism
+        when they get hot</strong>. In 2D this happens suddenly around T ≈ 2.27; in 1D the magnetism
+        never survives at any temperature above zero.
+      </p>
+    </div>
+  </details>
+</main>
+
+<script>
+"use strict";
+
+/* ============================================================
+   Utility
+   ============================================================ */
+function $(id) { return document.getElementById(id); }
+function bindSlider(id, valId, fmt) {
+  const s = $(id), v = $(valId);
+  const update = () => { v.textContent = fmt ? fmt(+s.value) : s.value; };
+  s.addEventListener("input", update);
+  update();
+  return s;
+}
+
+/* ============================================================
+   Tabs
+   ============================================================ */
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    tab.classList.add("active");
+    $(tab.dataset.view).classList.add("active");
+  });
+});
+
+/* ============================================================
+   2D ISING MODEL
+   ============================================================ */
+const Ising2D = (() => {
+  let N = 80;
+  let spins = new Int8Array(N * N);
+  let T = 2.27, J = 1, h = 0;
+  let sweeps = 0;
+  let running = false;
+  let rafId = null;
+
+  const canvas = $("lattice2d");
+  const ctx = canvas.getContext("2d");
+  let img = null;
+
+  function idx(i, j) { return i * N + j; }
+
+  function allocate() {
+    spins = new Int8Array(N * N);
+    img = ctx.createImageData(N, N);
+    randomize();
+  }
+  function randomize() {
+    for (let k = 0; k < N * N; k++) spins[k] = Math.random() < 0.5 ? 1 : -1;
+    sweeps = 0;
+  }
+  function align() {
+    spins.fill(1);
+    sweeps = 0;
+  }
+
+  // One Monte Carlo sweep = N*N attempted flips (Metropolis)
+  function sweep() {
+    const n2 = N * N;
+    for (let s = 0; s < n2; s++) {
+      const i = (Math.random() * N) | 0;
+      const j = (Math.random() * N) | 0;
+      const c = idx(i, j);
+      const up = spins[idx((i - 1 + N) % N, j)];
+      const down = spins[idx((i + 1) % N, j)];
+      const left = spins[idx(i, (j - 1 + N) % N)];
+      const right = spins[idx(i, (j + 1) % N)];
+      const sum = up + down + left + right;
+      const si = spins[c];
+      // dE for flipping si -> -si
+      const dE = 2 * si * (J * sum + h);
+      if (dE <= 0 || Math.random() < Math.exp(-dE / T)) {
+        spins[c] = -si;
+      }
+    }
+    sweeps++;
+  }
+
+  function magnetization() {
+    let m = 0;
+    for (let k = 0; k < N * N; k++) m += spins[k];
+    return m / (N * N);
+  }
+  function energyPerSite() {
+    let e = 0;
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        const si = spins[idx(i, j)];
+        const right = spins[idx(i, (j + 1) % N)];
+        const down = spins[idx((i + 1) % N, j)];
+        e -= J * si * (right + down);
+        e -= h * si;
+      }
+    }
+    return e / (N * N);
+  }
+
+  function draw() {
+    const data = img.data;
+    for (let k = 0; k < N * N; k++) {
+      const o = k * 4;
+      if (spins[k] === 1) { data[o] = 255; data[o+1] = 84; data[o+2] = 112; }
+      else { data[o] = 46; data[o+1] = 58; data[o+2] = 95; }
+      data[o+3] = 255;
+    }
+    // scale imagedata onto canvas
+    const off = document.createElement("canvas");
+    off.width = N; off.height = N;
+    off.getContext("2d").putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
+  }
+
+  function updateStats() {
+    const m = magnetization();
+    const e = energyPerSite();
+    const am = Math.abs(m);
+    $("m2d").textContent = m.toFixed(3);
+    $("e2d").textContent = e.toFixed(3);
+    $("am2d").textContent = am.toFixed(3);
+    $("sw2d").textContent = sweeps;
+    const badge = $("phase2d");
+    if (am > 0.4) {
+      badge.textContent = "ferromagnetic (magnetized)";
+      badge.className = "phase-badge phase-ferro";
+    } else {
+      badge.textContent = "paramagnetic (demagnetized)";
+      badge.className = "phase-badge phase-para";
+    }
+  }
+
+  function frame() {
+    if (!running) return;
+    const speed = +$("spd2d").value;
+    for (let s = 0; s < speed; s++) sweep();
+    draw();
+    updateStats();
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function setRunning(r) {
+    running = r;
+    $("run2d").textContent = r ? "❚❚ Pause" : "▶ Run";
+    if (r) frame();
+    else if (rafId) cancelAnimationFrame(rafId);
+  }
+
+  // wiring
+  bindSlider("t2d", "t2d-v", v => v.toFixed(2)).addEventListener("input", e => T = +e.target.value);
+  bindSlider("j2d", "j2d-v", v => v.toFixed(2)).addEventListener("input", e => J = +e.target.value);
+  bindSlider("h2d", "h2d-v", v => v.toFixed(2)).addEventListener("input", e => h = +e.target.value);
+  bindSlider("n2d", "n2d-v").addEventListener("input", e => { N = +e.target.value; allocate(); draw(); updateStats(); });
+  bindSlider("spd2d", "spd2d-v");
+
+  $("run2d").addEventListener("click", () => setRunning(!running));
+  $("step2d").addEventListener("click", () => { sweep(); draw(); updateStats(); });
+  $("hot2d").addEventListener("click", () => { randomize(); draw(); updateStats(); });
+  $("cold2d").addEventListener("click", () => { align(); draw(); updateStats(); });
+
+  T = +$("t2d").value; J = +$("j2d").value; h = +$("h2d").value; N = +$("n2d").value;
+  allocate(); draw(); updateStats();
+
+  return { setRunning: () => setRunning(false) };
+})();
+
+/* ============================================================
+   1D ISING MODEL
+   ============================================================ */
+const Ising1D = (() => {
+  let N = 400;
+  let spins = new Int8Array(N);
+  let T = 1, J = 1, h = 0;
+  let sweeps = 0;
+  let running = false;
+  let rafId = null;
+
+  const chain = $("chain1d");
+  const cctx = chain.getContext("2d");
+  const st = $("spacetime1d");
+  const stctx = st.getContext("2d");
+  let stRow = 0;
+
+  function allocate() {
+    spins = new Int8Array(N);
+    randomize();
+    clearSpacetime();
+  }
+  function randomize() {
+    for (let k = 0; k < N; k++) spins[k] = Math.random() < 0.5 ? 1 : -1;
+    sweeps = 0;
+  }
+  function align() { spins.fill(1); sweeps = 0; }
+
+  function clearSpacetime() {
+    stctx.fillStyle = "#070a12";
+    stctx.fillRect(0, 0, st.width, st.height);
+    stRow = 0;
+  }
+
+  function sweep() {
+    for (let s = 0; s < N; s++) {
+      const i = (Math.random() * N) | 0;
+      const left = spins[(i - 1 + N) % N];
+      const right = spins[(i + 1) % N];
+      const si = spins[i];
+      const dE = 2 * si * (J * (left + right) + h);
+      if (dE <= 0 || Math.random() < Math.exp(-dE / T)) spins[i] = -si;
+    }
+    sweeps++;
+  }
+
+  function magnetization() {
+    let m = 0; for (let k = 0; k < N; k++) m += spins[k];
+    return m / N;
+  }
+  function energyPerSite() {
+    let e = 0;
+    for (let i = 0; i < N; i++) {
+      e -= J * spins[i] * spins[(i + 1) % N];
+      e -= h * spins[i];
+    }
+    return e / N;
+  }
+
+  function drawChain() {
+    const w = chain.width, hgt = chain.height;
+    cctx.clearRect(0, 0, w, hgt);
+    const bw = w / N;
+    for (let k = 0; k < N; k++) {
+      cctx.fillStyle = spins[k] === 1 ? "#ff5470" : "#2e3a5f";
+      cctx.fillRect(k * bw, 0, Math.ceil(bw) + 0.5, hgt);
+    }
+  }
+
+  function pushSpacetime() {
+    // scroll down by 1 px, draw current chain at top
+    const w = st.width, hgt = st.height;
+    const imgData = stctx.getImageData(0, 0, w, hgt - 1);
+    stctx.putImageData(imgData, 0, 1);
+    const row = stctx.createImageData(w, 1);
+    for (let x = 0; x < w; x++) {
+      const k = Math.min(N - 1, (x / w * N) | 0);
+      const o = x * 4;
+      if (spins[k] === 1) { row.data[o]=255; row.data[o+1]=84; row.data[o+2]=112; }
+      else { row.data[o]=46; row.data[o+1]=58; row.data[o+2]=95; }
+      row.data[o+3] = 255;
+    }
+    stctx.putImageData(row, 0, 0);
+  }
+
+  function updateStats() {
+    const m = magnetization(), e = energyPerSite(), am = Math.abs(m);
+    $("m1d").textContent = m.toFixed(3);
+    $("e1d").textContent = e.toFixed(3);
+    $("am1d").textContent = am.toFixed(3);
+    $("sw1d").textContent = sweeps;
+  }
+
+  function frame() {
+    if (!running) return;
+    const speed = +$("spd1d").value;
+    for (let s = 0; s < speed; s++) { sweep(); pushSpacetime(); }
+    drawChain();
+    updateStats();
+    rafId = requestAnimationFrame(frame);
+  }
+  function setRunning(r) {
+    running = r;
+    $("run1d").textContent = r ? "❚❚ Pause" : "▶ Run";
+    if (r) frame(); else if (rafId) cancelAnimationFrame(rafId);
+  }
+
+  bindSlider("t1d", "t1d-v", v => v.toFixed(2)).addEventListener("input", e => T = +e.target.value);
+  bindSlider("j1d", "j1d-v", v => v.toFixed(2)).addEventListener("input", e => J = +e.target.value);
+  bindSlider("h1d", "h1d-v", v => v.toFixed(2)).addEventListener("input", e => h = +e.target.value);
+  bindSlider("n1d", "n1d-v").addEventListener("input", e => { N = +e.target.value; allocate(); drawChain(); updateStats(); });
+  bindSlider("spd1d", "spd1d-v");
+
+  $("run1d").addEventListener("click", () => setRunning(!running));
+  $("step1d").addEventListener("click", () => { sweep(); pushSpacetime(); drawChain(); updateStats(); });
+  $("hot1d").addEventListener("click", () => { randomize(); clearSpacetime(); drawChain(); updateStats(); });
+  $("cold1d").addEventListener("click", () => { align(); clearSpacetime(); drawChain(); updateStats(); });
+
+  T = +$("t1d").value; J = +$("j1d").value; h = +$("h1d").value; N = +$("n1d").value;
+  allocate(); drawChain(); updateStats();
+
+  return {};
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coffee Mug Caustic</title>
+<style>
+  :root {
+    --bg: #1a1410;
+    --panel: #241c15;
+    --panel-2: #2e241b;
+    --accent: #f3c677;
+    --accent-2: #e89b3c;
+    --text: #f4e9d8;
+    --muted: #b39c82;
+    --line: #3d3025;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: radial-gradient(1200px 800px at 70% -10%, #2a2018, var(--bg));
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap {
+    display: flex;
+    gap: 18px;
+    padding: 18px;
+    height: 100%;
+    align-items: stretch;
+  }
+  .stage {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    min-width: 0;
+  }
+  canvas { display: block; width: 100%; height: 100%; }
+  .title {
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .panel {
+    flex: 0 0 300px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .panel h1 {
+    font-size: 18px;
+    margin: 2px 0 0;
+    font-weight: 650;
+  }
+  .panel .sub { color: var(--muted); font-size: 12.5px; line-height: 1.5; margin: 0; }
+  .group { display: flex; flex-direction: column; gap: 10px; }
+  #lenControls { display: flex; flex-direction: column; gap: 10px; }
+  .group h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+    margin: 6px 0 0;
+    font-weight: 700;
+  }
+  .ctrl { display: flex; flex-direction: column; gap: 6px; }
+  .ctrl .row { display: flex; justify-content: space-between; align-items: baseline; }
+  .ctrl label { font-size: 13px; color: var(--text); }
+  .ctrl .val { font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px; border-radius: 3px;
+    background: var(--line); outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); cursor: pointer;
+    border: 2px solid #3a2c1c;
+    box-shadow: 0 0 0 3px rgba(243,198,119,.15);
+  }
+  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  button {
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 9px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .15s;
+  }
+  button:hover { border-color: var(--accent-2); color: #fff; }
+  button.primary { background: linear-gradient(180deg, var(--accent), var(--accent-2)); color: #2a1c0c; border: none; font-weight: 650; }
+  .toggle { display: flex; align-items: center; gap: 9px; font-size: 13px; cursor: pointer; user-select: none; }
+  .toggle input { accent-color: var(--accent-2); width: 15px; height: 15px; }
+  .footer { color: var(--muted); font-size: 11.5px; line-height: 1.5; margin-top: auto; }
+  .footer b { color: var(--text); font-weight: 600; }
+  .viewtabs { position: absolute; top: 12px; right: 14px; display: flex; gap: 6px; z-index: 5; }
+  .tab {
+    background: rgba(20,15,10,.55); border: 1px solid var(--line); color: var(--muted);
+    padding: 6px 12px; font-size: 12px; border-radius: 8px; cursor: pointer;
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  }
+  .tab:hover { color: #fff; }
+  .tab.active { color: #2a1c0c; background: linear-gradient(180deg,var(--accent),var(--accent-2)); border: none; font-weight: 650; }
+  #three { position: absolute; inset: 0; display: none; }
+  #three canvas { display: block; }
+  .hint3d { position: absolute; bottom: 12px; left: 18px; font-size: 11.5px; color: var(--muted); pointer-events: none; display: none; }
+  .explain .sub { margin: 0 0 8px; }
+  .explain b { color: var(--accent); font-weight: 650; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <div class="viewtabs">
+      <button id="tab2d" class="tab active">2D top view</button>
+      <button id="tab3d" class="tab">3D explainer</button>
+    </div>
+    <span class="title">Caustic in a coffee mug</span>
+    <canvas id="c"></canvas>
+    <div id="three"></div>
+    <span class="hint3d" id="hint3d">Drag to orbit · scroll to zoom</span>
+  </div>
+
+  <div class="panel">
+    <div>
+      <h1>Coffee Mug Caustic</h1>
+      <p class="sub">Parallel light rays hit the inside of the mug, reflect, and travel a fixed length. Sweeping the beam across the circle traces a bright <b>nephroid</b> — the caustic you see in your coffee.</p>
+    </div>
+
+    <div class="group">
+      <h2>Beam</h2>
+      <div class="ctrl">
+        <div class="row"><label>Number of rays</label><span class="val" id="numVal"></span></div>
+        <input id="num" type="range" min="3" max="400" step="1" value="120" />
+      </div>
+      <div class="ctrl">
+        <div class="row"><label>Light direction</label><span class="val" id="angVal"></span></div>
+        <input id="ang" type="range" min="0" max="360" step="1" value="180" />
+      </div>
+      <div id="lenControls">
+        <label class="toggle"><input type="checkbox" id="rangeMode" /> Range of lengths</label>
+        <div class="ctrl">
+          <div class="row"><label id="lenLabel">Reflected ray length</label><span class="val" id="lenVal"></span></div>
+          <input id="len" type="range" min="0.05" max="2" step="0.01" value="0.62" />
+        </div>
+        <div class="ctrl" id="lenMaxCtrl" style="display:none">
+          <div class="row"><label>Max length</label><span class="val" id="lenMaxVal"></span></div>
+          <input id="lenMax" type="range" min="0.05" max="2" step="0.01" value="1.25" />
+        </div>
+        <div class="ctrl" id="lenStepsCtrl" style="display:none">
+          <div class="row"><label>Length steps</label><span class="val" id="lenStepsVal"></span></div>
+          <input id="lenSteps" type="range" min="2" max="80" step="1" value="30" />
+        </div>
+        <div class="ctrl">
+          <div class="row"><label>Glow intensity</label><span class="val" id="gainVal"></span></div>
+          <input id="gain" type="range" min="1" max="100" step="1" value="45" />
+        </div>
+      </div>
+    </div>
+
+    <div class="group" id="group3d" style="display:none">
+      <h2>3D explainer</h2>
+      <div class="ctrl">
+        <div class="row"><label>Light tilt from table (α)</label><span class="val" id="tiltVal"></span></div>
+        <input id="tilt" type="range" min="15" max="85" step="1" value="58" />
+      </div>
+      <div class="ctrl">
+        <div class="row"><label>Reflection height (h)</label><span class="val" id="heightVal"></span></div>
+        <input id="height" type="range" min="20" max="100" step="1" value="78" />
+      </div>
+      <div class="ctrl">
+        <div class="row"><label>⇒ Fixed run on bottom (L = h/tan α)</label><span class="val" id="lenReadout">—</span></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Animation</h2>
+      <div class="ctrl">
+        <div class="row"><label>Sweep speed</label><span class="val" id="spdVal"></span></div>
+        <input id="spd" type="range" min="0" max="100" step="1" value="35" />
+      </div>
+      <div class="btns">
+        <button id="play" class="primary">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Display</h2>
+      <label class="toggle"><input type="checkbox" id="showIncoming" checked /> Incoming rays</label>
+      <label class="toggle"><input type="checkbox" id="showReflected" checked /> Reflected rays</label>
+      <label class="toggle"><input type="checkbox" id="showPoints" checked /> Endpoint dots</label>
+      <label class="toggle"><input type="checkbox" id="sweepMode" checked /> Sweep one ray (build up)</label>
+    </div>
+
+    <div class="group explain" id="explain">
+      <h2>Why a fixed length?</h2>
+      <p class="sub">Light comes in tilted by <b>α</b> above the table. It hits the <b>vertical</b> mug wall, whose normal is horizontal — so reflection only flips the <i>sideways</i> direction and leaves the downward slope untouched. Every ray keeps descending at the same angle.</p>
+      <p class="sub">To reach the coffee at the bottom, each ray drops the same height <b>h</b>. Same drop + same slope ⇒ the same horizontal run <b>L = h / tan α</b>. The rays leave the wall in <i>different directions</i> but travel the <i>same length</i> — so their landing points fan out into the caustic. That is exactly the fixed-length picture in the 2D view.</p>
+      <div class="legend">
+        <span><i style="background:#66d9ef"></i>height h</span>
+        <span><i style="background:#8ef58e"></i>run L</span>
+        <span><i style="background:#ffb15a"></i>reflected ray</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <b>Range of lengths:</b> each ray drops points at many lengths at once. Where points pile up, the color gets brighter — that density <b>is</b> the caustic's intensity.<br>
+      <b>Sweep on:</b> one ray builds the picture up over time. <b>Off:</b> all rays at once.
+    </div>
+  </div>
+</div>
+
+<script>
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+
+const els = {
+  rangeMode: document.getElementById('rangeMode'),
+  len: document.getElementById('len'),
+  lenMax: document.getElementById('lenMax'),
+  lenSteps: document.getElementById('lenSteps'),
+  lenMaxCtrl: document.getElementById('lenMaxCtrl'),
+  lenStepsCtrl: document.getElementById('lenStepsCtrl'),
+  lenLabel: document.getElementById('lenLabel'),
+  num: document.getElementById('num'),
+  ang: document.getElementById('ang'),
+  gain: document.getElementById('gain'),
+  spd: document.getElementById('spd'),
+  play: document.getElementById('play'),
+  reset: document.getElementById('reset'),
+  showIncoming: document.getElementById('showIncoming'),
+  showReflected: document.getElementById('showReflected'),
+  showPoints: document.getElementById('showPoints'),
+  sweepMode: document.getElementById('sweepMode'),
+  lenVal: document.getElementById('lenVal'),
+  lenMaxVal: document.getElementById('lenMaxVal'),
+  lenStepsVal: document.getElementById('lenStepsVal'),
+  numVal: document.getElementById('numVal'),
+  angVal: document.getElementById('angVal'),
+  gainVal: document.getElementById('gainVal'),
+  spdVal: document.getElementById('spdVal'),
+};
+
+let W = 0, H = 0, cx = 0, cy = 0, R = 0, dpr = 1;
+
+// offscreen additive buffer: points are drawn here with 'lighter' blending so that
+// wherever many points overlap the color sums up and gets brighter (= caustic intensity)
+const acc = document.createElement('canvas');
+const actx = acc.getContext('2d');
+
+// soft warm dot sprite used as the "point"; radial falloff makes accumulation smooth
+const dot = document.createElement('canvas');
+dot.width = dot.height = 32;
+(function buildDot() {
+  const d = dot.getContext('2d');
+  const g = d.createRadialGradient(16, 16, 0, 16, 16, 16);
+  g.addColorStop(0, 'rgba(255,206,140,1)');
+  g.addColorStop(0.5, 'rgba(255,206,140,0.35)');
+  g.addColorStop(1, 'rgba(255,206,140,0)');
+  d.fillStyle = g;
+  d.fillRect(0, 0, 32, 32);
+})();
+
+function resize() {
+  const rect = cv.parentElement.getBoundingClientRect();
+  dpr = window.devicePixelRatio || 1;
+  W = rect.width; H = rect.height;
+  cv.width = W * dpr; cv.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  acc.width = W * dpr; acc.height = H * dpr;
+  cx = W / 2; cy = H / 2;
+  R = Math.min(W, H) * 0.36;
+  resetAccumulation();
+}
+window.addEventListener('resize', resize);
+
+// state
+let running = true;
+let phase = 0;           // sweep phase 0..1 for the moving ray
+let accDirty = true;     // for all-rays mode: rebuild the buffer when params change
+
+function resetAccumulation() {
+  actx.setTransform(1, 0, 0, 1, 0, 0);
+  actx.clearRect(0, 0, acc.width, acc.height);
+  phase = 0;
+  accDirty = true;
+}
+
+// add one point (in world coords) into the additive buffer
+function addPoint(wx, wy, sizeCss, alpha) {
+  const X = (cx + wx) * dpr, Y = (cy + wy) * dpr;
+  const s = sizeCss * dpr;
+  actx.globalCompositeOperation = 'lighter';
+  actx.globalAlpha = alpha;
+  actx.drawImage(dot, X - s / 2, Y - s / 2, s, s);
+}
+
+// build the set of lengths (in pixels) to place points at along each reflected ray
+function getLengths() {
+  const l1 = parseFloat(els.len.value) * R;
+  if (!els.rangeMode.checked) return [l1];
+  const l2 = parseFloat(els.lenMax.value) * R;
+  const lo = Math.min(l1, l2), hi = Math.max(l1, l2);
+  const steps = parseInt(els.lenSteps.value);
+  if (steps <= 1) return [lo];
+  const arr = [];
+  for (let i = 0; i < steps; i++) arr.push(lo + (hi - lo) * i / (steps - 1));
+  return arr;
+}
+
+// Compute the reflected segment for a parallel ray with perpendicular offset b (in units of R).
+// dir: incoming unit direction. Returns null if the ray misses the circle.
+function computeRay(dirx, diry, b) {
+  // perpendicular
+  const px = -diry, py = dirx;
+  // start point far back along -dir, offset by b*R along perpendicular
+  const far = R * 4;
+  const sx = -dirx * far + px * b * R;
+  const sy = -diry * far + py * b * R;
+  // intersect |s + t*dir| = R  (relative to circle center at origin)
+  const B = 2 * (sx * dirx + sy * diry);
+  const C = sx * sx + sy * sy - R * R;
+  const disc = B * B - 4 * C;
+  if (disc < 0) return null;
+  const sq = Math.sqrt(disc);
+  const tNear = (-B - sq) / 2;         // where the ray enters through the front surface
+  const t = (-B + sq) / 2;             // far inside wall: the ray reflects here
+  const ex = sx + dirx * tNear;        // entry point on the near surface
+  const ey = sy + diry * tNear;
+  const hx = sx + dirx * t;            // reflection point on the far inside wall
+  const hy = sy + diry * t;
+  // outward normal
+  const nx = hx / R, ny = hy / R;
+  const dot = dirx * nx + diry * ny;
+  // reflect
+  const rx = dirx - 2 * dot * nx;
+  const ry = diry - 2 * dot * ny;
+  // incoming ray starts outside, passes through the near entry point, ends at far wall
+  return { hx, hy, rx, ry, ex, ey, sx: ex - dirx * (R * 0.6), sy: ey - diry * (R * 0.6) };
+}
+
+function drawMug() {
+  ctx.save();
+  ctx.translate(cx, cy);
+  const g = ctx.createRadialGradient(-R*0.35, -R*0.35, R*0.15, 0, 0, R*1.05);
+  g.addColorStop(0, '#5a3d24');
+  g.addColorStop(0.6, '#3c2817');
+  g.addColorStop(1, '#2a1a0e');
+  ctx.beginPath();
+  ctx.arc(0, 0, R, 0, Math.PI * 2);
+  ctx.fillStyle = g;
+  ctx.fill();
+  // rim
+  ctx.lineWidth = Math.max(4, R * 0.03);
+  ctx.strokeStyle = '#c9a56b';
+  ctx.stroke();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(255,240,210,0.25)';
+  ctx.beginPath();
+  ctx.arc(0, 0, R - ctx.lineWidth * 2, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function toScreen(x, y) { return [cx + x, cy + y]; }
+
+function drawSegment(hx, hy, rx, ry, L, opts) {
+  const ex = hx + rx * L, ey = hy + ry * L;
+  const [ax, ay] = toScreen(hx, hy);
+  const [bx, by] = toScreen(ex, ey);
+  if (opts.reflected) {
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(bx, by);
+    ctx.strokeStyle = opts.reflColor;
+    ctx.lineWidth = opts.reflWidth;
+    ctx.stroke();
+  }
+  if (opts.point) {
+    ctx.beginPath();
+    ctx.arc(bx, by, opts.pointR, 0, Math.PI * 2);
+    ctx.fillStyle = opts.pointColor;
+    ctx.fill();
+  }
+  return [ex, ey];
+}
+
+function drawIncoming(ray, dirx, diry, color) {
+  const [ax, ay] = toScreen(ray.sx, ray.sy);
+  const [bx, by] = toScreen(ray.hx, ray.hy);
+  ctx.beginPath();
+  ctx.moveTo(ax, ay);
+  ctx.lineTo(bx, by);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.4;
+  ctx.stroke();
+  // arrow head
+  const ah = Math.max(6, R * 0.03);
+  const ang = Math.atan2(diry, dirx);
+  ctx.beginPath();
+  ctx.moveTo(bx, by);
+  ctx.lineTo(bx - ah * Math.cos(ang - 0.4), by - ah * Math.sin(ang - 0.4));
+  ctx.lineTo(bx - ah * Math.cos(ang + 0.4), by - ah * Math.sin(ang + 0.4));
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+// place all points for one ray (over the whole length set) into the additive buffer
+function accumulateRay(ray, lengths, alpha) {
+  for (let k = 0; k < lengths.length; k++) {
+    const L = lengths[k];
+    addPoint(ray.hx + ray.rx * L, ray.hy + ray.ry * L, 3, alpha);
+  }
+}
+
+// rebuild the whole buffer at once (used in "all rays" mode)
+function rebuildAll(dirx, diry, lengths, N, alpha) {
+  actx.setTransform(1, 0, 0, 1, 0, 0);
+  actx.clearRect(0, 0, acc.width, acc.height);
+  if (!els.showPoints.checked) return;
+  for (let i = 0; i < N; i++) {
+    const b = -1 + 2 * (i + 0.5) / N;
+    const ray = computeRay(dirx, diry, b);
+    if (ray) accumulateRay(ray, lengths, alpha);
+  }
+}
+
+function frame() {
+  if (cv.style.display === 'none') { requestAnimationFrame(frame); return; }
+  const N = parseInt(els.num.value);
+  const a = parseFloat(els.ang.value) * Math.PI / 180;
+  const dirx = Math.cos(a), diry = Math.sin(a);
+  const lengths = getLengths();
+  const sweep = els.sweepMode.checked;
+  // per-point alpha: dimmer when there are many points/rays so overlaps build up gradually
+  const gain = parseFloat(els.gain.value) / 100;
+  const perPoint = (0.05 + 0.35 * gain);
+
+  if (sweep) {
+    if (running && els.showPoints.checked) {
+      const speed = parseFloat(els.spd.value) / 100;
+      const dphase = 0.0016 + speed * 0.012;
+      // sub-sample the sweep so the caustic fills evenly regardless of speed
+      const subs = Math.max(1, Math.ceil(dphase / 0.0012));
+      for (let s = 0; s < subs; s++) {
+        const ph = phase + dphase * (s / subs);
+        const b = -1 + 2 * (((ph % 1) + 1) % 1);
+        const ray = computeRay(dirx, diry, b);
+        if (ray) accumulateRay(ray, lengths, perPoint * 0.5);
+      }
+      phase = (phase + dphase) % 1;
+    }
+  } else {
+    if (accDirty) { rebuildAll(dirx, diry, lengths, N, perPoint * 0.6); accDirty = false; }
+  }
+
+  // ---- composite the frame ----
+  ctx.clearRect(0, 0, W, H);
+  drawMug();
+
+  // glow the accumulated caustic over the coffee
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.drawImage(acc, 0, 0, W, H);
+  ctx.restore();
+
+  // live reflected rays
+  if (els.showReflected.checked) {
+    const Lmax = lengths[lengths.length - 1];
+    if (sweep) {
+      const b = -1 + 2 * phase;
+      const ray = computeRay(dirx, diry, b);
+      if (ray) drawSegment(ray.hx, ray.hy, ray.rx, ray.ry, Lmax, {
+        reflected: true, reflColor: 'rgba(255,236,180,0.9)', reflWidth: 2,
+      });
+    } else {
+      for (let i = 0; i < N; i++) {
+        const b = -1 + 2 * (i + 0.5) / N;
+        const ray = computeRay(dirx, diry, b);
+        if (ray) drawSegment(ray.hx, ray.hy, ray.rx, ray.ry, Lmax, {
+          reflected: true, reflColor: 'rgba(243,198,119,0.18)', reflWidth: 1,
+        });
+      }
+    }
+  }
+
+  // live incoming rays + moving highlight
+  if (sweep) {
+    const b = -1 + 2 * phase;
+    const ray = computeRay(dirx, diry, b);
+    if (ray && els.showIncoming.checked) drawIncoming(ray, dirx, diry, 'rgba(120,200,255,0.9)');
+  } else if (els.showIncoming.checked) {
+    for (let i = 0; i < N; i++) {
+      const b = -1 + 2 * (i + 0.5) / N;
+      const ray = computeRay(dirx, diry, b);
+      if (ray) drawIncoming(ray, dirx, diry, 'rgba(120,200,255,0.3)');
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+// UI wiring
+function fmt() {
+  els.lenVal.textContent = parseFloat(els.len.value).toFixed(2) + '×R';
+  els.lenMaxVal.textContent = parseFloat(els.lenMax.value).toFixed(2) + '×R';
+  els.lenStepsVal.textContent = els.lenSteps.value;
+  els.numVal.textContent = els.num.value;
+  els.angVal.textContent = els.ang.value + '°';
+  els.gainVal.textContent = els.gain.value + '%';
+  els.spdVal.textContent = els.spd.value + '%';
+}
+
+// changes to geometry require rebuilding the accumulation
+[els.len, els.lenMax, els.lenSteps, els.num, els.ang].forEach(e =>
+  e.addEventListener('input', () => { fmt(); resetAccumulation(); }));
+// gain only changes brightness going forward; rebuild static mode for immediate feedback
+els.gain.addEventListener('input', () => { fmt(); accDirty = true; });
+els.spd.addEventListener('input', fmt);
+
+els.rangeMode.addEventListener('change', () => {
+  const on = els.rangeMode.checked;
+  els.lenMaxCtrl.style.display = on ? '' : 'none';
+  els.lenStepsCtrl.style.display = on ? '' : 'none';
+  els.lenLabel.textContent = on ? 'Min length' : 'Reflected ray length';
+  resetAccumulation();
+});
+
+els.showPoints.addEventListener('change', resetAccumulation);
+els.play.addEventListener('click', () => {
+  running = !running;
+  els.play.textContent = running ? 'Pause' : 'Play';
+});
+els.reset.addEventListener('click', resetAccumulation);
+els.sweepMode.addEventListener('change', resetAccumulation);
+
+resize();
+fmt();
+requestAnimationFrame(frame);
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const g = id => document.getElementById(id);
+const container = g('three');
+
+const R3 = 2, Hm = 2.4;   // mug radius & height in scene units
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+camera.position.set(4.8, 4.6, 6.0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+container.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.target.set(0, Hm * 0.32, 0);
+controls.minDistance = 3.5;
+controls.maxDistance = 20;
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+const dl = new THREE.DirectionalLight(0xfff2d8, 0.85);
+dl.position.set(5, 9, 4);
+scene.add(dl);
+
+// ---- mug ----
+const wall = new THREE.Mesh(
+  new THREE.CylinderGeometry(R3, R3, Hm, 80, 1, true),
+  new THREE.MeshStandardMaterial({ color: 0xdcc39a, transparent: true, opacity: 0.12, side: THREE.DoubleSide, roughness: 1, metalness: 0 })
+);
+wall.position.y = Hm / 2;
+scene.add(wall);
+
+const rim = new THREE.Mesh(
+  new THREE.TorusGeometry(R3, 0.022, 14, 80),
+  new THREE.MeshStandardMaterial({ color: 0xc9a56b, roughness: 0.5 })
+);
+rim.rotation.x = Math.PI / 2;
+rim.position.y = Hm;
+scene.add(rim);
+
+const bottom = new THREE.Mesh(
+  new THREE.CircleGeometry(R3, 80),
+  new THREE.MeshStandardMaterial({ color: 0x3a2716, roughness: 0.55, metalness: 0.25, side: THREE.DoubleSide })
+);
+bottom.rotation.x = -Math.PI / 2;
+bottom.position.y = 0.004;
+scene.add(bottom);
+
+// ground shadow disc (subtle)
+const table = new THREE.Mesh(
+  new THREE.CircleGeometry(R3 * 2.4, 64),
+  new THREE.MeshBasicMaterial({ color: 0x140f0a, transparent: true, opacity: 0.5 })
+);
+table.rotation.x = -Math.PI / 2;
+table.position.y = -0.02;
+scene.add(table);
+
+// ---- dynamic sets ----
+const incoming = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0x66c8ff, transparent: true, opacity: 0.35 }));
+const reflected = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xf3c677, transparent: true, opacity: 0.45 }));
+const caustic = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xffe6a0, transparent: true, opacity: 0.95 }));
+const landings = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0xfff2cf, size: 0.07, sizeAttenuation: true }));
+scene.add(incoming, reflected, caustic, landings);
+
+// ---- annotation triangle for one representative ray ----
+const triHeight = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0x66d9ef }));
+const triBase = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0x8ef58e }));
+const triHyp = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xffb15a }));
+scene.add(triHeight, triBase, triHyp);
+
+// ---- moving highlight (sweep) ----
+const hi = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xffffff }));
+const hiPt = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+scene.add(hi, hiPt);
+
+// reflect a parallel horizontal ray (in the x-z plane) off the far wall of the circle
+function intersectFar(ux, uz, b) {
+  const px = -uz, py = ux;
+  const far = R3 * 4;
+  const sx = -ux * far + px * b * R3, sz = -uz * far + py * b * R3;
+  const B = 2 * (sx * ux + sz * uz), C = sx * sx + sz * sz - R3 * R3;
+  const disc = B * B - 4 * C;
+  if (disc < 0) return null;
+  const t = (-B + Math.sqrt(disc)) / 2;
+  const hx = sx + ux * t, hz = sz + uz * t;
+  const nx = hx / R3, nz = hz / R3, dot = ux * nx + uz * nz;
+  return { hx, hz, rx: ux - 2 * dot * nx, rz: uz - 2 * dot * nz };
+}
+
+function readParams() {
+  return {
+    N: parseInt(g('num').value),
+    az: parseFloat(g('ang').value) * Math.PI / 180,
+    alpha: parseFloat(g('tilt').value) * Math.PI / 180,
+    h: parseFloat(g('height').value) / 100 * Hm,
+    sweep: g('sweepMode').checked,
+  };
+}
+
+function build() {
+  const { N, az, alpha, h } = readParams();
+  const ux = Math.cos(az), uz = Math.sin(az);
+  const ca = Math.cos(alpha), sa = Math.sin(alpha);
+  const L = sa > 0.001 ? h * ca / sa : h * 1000;   // horizontal run = h / tan(alpha)
+  const inLen = 1.7 * R3;
+
+  const inc = [], ref = [], land = [], caus = [];
+  for (let i = 0; i < N; i++) {
+    const b = -1 + 2 * (i + 0.5) / N;
+    const r = intersectFar(ux, uz, b);
+    if (!r) continue;
+    // incoming ray arrives from up & back, tilted down by alpha
+    inc.push(r.hx - ux * ca * inLen, h + sa * inLen, r.hz - uz * ca * inLen, r.hx, h, r.hz);
+    // reflected ray descends to the bottom, landing a fixed horizontal distance L away
+    const lx = r.hx + r.rx * L, lz = r.hz + r.rz * L;
+    ref.push(r.hx, h, r.hz, lx, 0, lz);
+    land.push(lx, 0.012, lz);
+    caus.push(lx, 0.012, lz);
+  }
+  incoming.geometry.setAttribute('position', new THREE.Float32BufferAttribute(inc, 3));
+  reflected.geometry.setAttribute('position', new THREE.Float32BufferAttribute(ref, 3));
+  landings.geometry.setAttribute('position', new THREE.Float32BufferAttribute(land, 3));
+  caustic.geometry.setAttribute('position', new THREE.Float32BufferAttribute(caus, 3));
+
+  // representative right-triangle: height h, run L, reflected ray as hypotenuse
+  const rb = intersectFar(ux, uz, 0.42);
+  if (rb) {
+    const lx = rb.hx + rb.rx * L, lz = rb.hz + rb.rz * L;
+    triHeight.geometry.setFromPoints([new THREE.Vector3(rb.hx, h, rb.hz), new THREE.Vector3(rb.hx, 0, rb.hz)]);
+    triBase.geometry.setFromPoints([new THREE.Vector3(rb.hx, 0, rb.hz), new THREE.Vector3(lx, 0, lz)]);
+    triHyp.geometry.setFromPoints([new THREE.Vector3(rb.hx, h, rb.hz), new THREE.Vector3(lx, 0, lz)]);
+  }
+  g('lenReadout').textContent = (L / R3).toFixed(2) + '×R';
+}
+
+let phase = 0;
+function animate() {
+  const p = readParams();
+  const is3d = container.style.display !== 'none';
+
+  incoming.visible = g('showIncoming').checked;
+  reflected.visible = g('showReflected').checked;
+  landings.visible = caustic.visible = g('showPoints').checked;
+
+  if (p.sweep) {
+    hi.visible = true; hiPt.visible = true;
+    const running = g('play').textContent === 'Pause';
+    if (running && is3d) {
+      const speed = parseFloat(g('spd').value) / 100;
+      phase = (phase + 0.0016 + speed * 0.012) % 1;
+    }
+    const ux = Math.cos(p.az), uz = Math.sin(p.az);
+    const ca = Math.cos(p.alpha), sa = Math.sin(p.alpha);
+    const L = sa > 0.001 ? p.h * ca / sa : p.h * 1000;
+    const inLen = 1.7 * R3;
+    const r = intersectFar(ux, uz, -1 + 2 * phase);
+    if (r) {
+      const lx = r.hx + r.rx * L, lz = r.hz + r.rz * L;
+      hi.geometry.setFromPoints([
+        new THREE.Vector3(r.hx - ux * ca * inLen, p.h + sa * inLen, r.hz - uz * ca * inLen),
+        new THREE.Vector3(r.hx, p.h, r.hz),
+        new THREE.Vector3(r.hx, p.h, r.hz),
+        new THREE.Vector3(lx, 0, lz),
+      ]);
+      hiPt.position.set(lx, 0.03, lz);
+    }
+  } else {
+    hi.visible = false; hiPt.visible = false;
+  }
+
+  controls.update();
+  if (is3d) renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+
+function resize3D() {
+  const w = container.clientWidth || 1, h = container.clientHeight || 1;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+window.addEventListener('resize', resize3D);
+
+// keep 3D readouts in sync and rebuild on geometry change
+function fmt3d() {
+  g('tiltVal').textContent = g('tilt').value + '°';
+  g('heightVal').textContent = g('height').value + '%';
+}
+['num', 'ang', 'tilt', 'height', 'sweepMode'].forEach(id =>
+  g(id).addEventListener('input', () => { fmt3d(); build(); }));
+
+// ---- view tabs ----
+const canvas2d = g('c'), tab2d = g('tab2d'), tab3d = g('tab3d');
+function showView(is3d) {
+  tab3d.classList.toggle('active', is3d);
+  tab2d.classList.toggle('active', !is3d);
+  container.style.display = is3d ? 'block' : 'none';
+  canvas2d.style.display = is3d ? 'none' : 'block';
+  g('group3d').style.display = is3d ? '' : 'none';
+  g('lenControls').style.display = is3d ? 'none' : '';
+  g('hint3d').style.display = is3d ? 'block' : 'none';
+  if (is3d) { resize3D(); build(); }
+}
+tab2d.addEventListener('click', () => showView(false));
+tab3d.addEventListener('click', () => showView(true));
+
+fmt3d();
+build();
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
