@@ -99,7 +99,7 @@
   .hero::after { content: ""; display: block; clear: both; }
   .hero .tagline, .hero .intro { max-width: none; }
   @media (max-width: 560px) {
-    .portrait { float: none; width: 140px; margin: 0 0 20px; }
+    .portrait { float: none; display: block; width: 140px; margin: 0 auto 24px; }
     .ua-full { display: none; }
   }
   .intro { margin-top: 34px; max-width: 620px; color: var(--ink); }
@@ -256,7 +256,7 @@
     color: var(--ink-soft); letter-spacing: 0.05em;
   }
   .tech-item p { margin-top: 6px; font-size: 15px; color: var(--ink-soft); }
-  @media (max-width: 640px) { .tech-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .tech-grid { grid-template-columns: 1fr; } .ducks, .counter { display: none; } }
 
   /* ---------- footer ---------- */
   footer {
