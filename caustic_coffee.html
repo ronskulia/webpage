@@ -424,6 +424,7 @@
 <script>
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
+const stage = cv.parentElement;
 
 const els = {
   rangeMode: document.getElementById('rangeMode'),
@@ -454,6 +455,7 @@ const els = {
 };
 
 let W = 0, H = 0, cx = 0, cy = 0, R = 0, dpr = 1;
+let resizeQueued = false;
 
 // offscreen additive buffer: points are drawn here with 'lighter' blending so that
 // wherever many points overlap the color sums up and gets brighter (= caustic intensity)
@@ -474,17 +476,40 @@ dot.width = dot.height = 32;
 })();
 
 function resize() {
-  const rect = cv.parentElement.getBoundingClientRect();
-  dpr = window.devicePixelRatio || 1;
-  W = rect.width; H = rect.height;
-  cv.width = W * dpr; cv.height = H * dpr;
+  const rect = stage.getBoundingClientRect();
+  const nextW = Math.max(1, Math.round(rect.width));
+  const nextH = Math.max(1, Math.round(rect.height));
+  const nextDpr = window.devicePixelRatio || 1;
+  dpr = nextDpr;
+  W = nextW; H = nextH;
+  cv.style.width = W + 'px';
+  cv.style.height = H + 'px';
+  cv.width = Math.round(W * dpr);
+  cv.height = Math.round(H * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  acc.width = W * dpr; acc.height = H * dpr;
+  acc.width = Math.round(W * dpr);
+  acc.height = Math.round(H * dpr);
   cx = W / 2; cy = H / 2;
   R = Math.min(W, H) * 0.36;
   resetAccumulation();
 }
-window.addEventListener('resize', resize);
+function queueResize() {
+  if (resizeQueued) return;
+  resizeQueued = true;
+  requestAnimationFrame(() => {
+    resizeQueued = false;
+    resize();
+  });
+}
+function queueOrientationResize() {
+  queueResize();
+  setTimeout(queueResize, 120);
+  setTimeout(queueResize, 360);
+}
+window.addEventListener('resize', queueResize);
+window.addEventListener('orientationchange', queueOrientationResize);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', queueResize);
+if (window.ResizeObserver) new ResizeObserver(queueResize).observe(stage);
 
 // state
 let running = true;
